@@ -1,0 +1,8 @@
+## Interface: 11302
+## Version: 0.1
+## Author: datagutten
+## Title: Lib: Items
+## Notes: Find items in bag and send them as mail attachments
+
+LibMail.lua
+LibInventories.lua

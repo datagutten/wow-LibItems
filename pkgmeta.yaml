@@ -1,0 +1,7 @@
+package-as: LibItems
+externals:
+  libs/LibStub:
+    url: https://repos.wowace.com/wow/libstub/trunk
+    tag: latest
+
+enable-nolib-creation: no
