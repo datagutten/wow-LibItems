@@ -5,3 +5,6 @@ externals:
     tag: latest
 
 enable-nolib-creation: no
+
+ignore:
+  - images
