@@ -10,5 +10,6 @@
 ## Notes: Find items in bag and send them as mail attachments
 ## X-Curse-Project-ID: 344823
 
+libs\LibStub\LibStub.lua
 LibMail.lua
 LibInventories.lua
