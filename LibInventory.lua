@@ -33,9 +33,12 @@ function inv:ScanBag(bag)
         --local itemId = GetContainerItemID(bag, slot);
         --local itemLink = GetContainerItemLink(bag, slot)
         local item
-        local icon, itemCount, locked, quality, readable, lootable, itemLink, isFiltered, noValue, itemID = GetContainerItemInfo(bag, slot)
+        local icon, itemCount, locked, quality, readable, lootable, itemLink,
+        isFiltered, noValue, itemID = GetContainerItemInfo(bag, slot)
         if itemID ~= nil then
-            item = {["bag"]=bag, ["slot"]=slot, ["icon"]=icon, ["itemCount"]=itemCount, ["locked"]=locked, ["quality"]=quality, ["readable"]=readable, ["lootable"]=lootable, ["itemLink"]=itemLink, ["isFiltered"]=isFiltered, ["noValue"]=noValue, ["itemID"]=itemID}
+            item = {["bag"]=bag, ["slot"]=slot, ["icon"]=icon, ["itemCount"]=itemCount, ["locked"]=locked,
+                    ["quality"]=quality, ["readable"]=readable, ["lootable"]=lootable, ["itemLink"]=itemLink,
+                    ["isFiltered"]=isFiltered, ["noValue"]=noValue, ["itemID"]=itemID}
             self.items[itemID] = item --TODO: Remove this and replace usages with inventory
             self.inventory[bag][slot] = item
             if not self.locations[itemID] then
