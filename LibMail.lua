@@ -1,4 +1,7 @@
 local lib = LibStub:NewLibrary("LibMail-0.1", 1)
+if not lib then
+    return	-- already loaded and no upgrade necessary
+end
 lib.mail_open = false
 local addonName = ...
 

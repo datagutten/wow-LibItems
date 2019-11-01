@@ -1,4 +1,8 @@
 local inv = LibStub:NewLibrary("LibInventory-0.1", 1)
+if not inv then
+    return	-- already loaded and no upgrade necessary
+end
+
 local NUM_EQUIPMENT_SLOTS = 19
 local addonName, addon = ...
 inv.items = inv.items or {}
