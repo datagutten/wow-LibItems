@@ -4,7 +4,7 @@
 #@non-retail@
 # ## Interface: 11302
 #@end-non-retail@
-## Version: 0.1
+## Version: @project-version@
 ## Author: datagutten
 ## Title: Lib: Items
 ## Notes: Find items in bag and send them as mail attachments
