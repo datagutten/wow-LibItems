@@ -3,8 +3,7 @@ if not inv then
     return	-- already loaded and no upgrade necessary
 end
 
-local NUM_EQUIPMENT_SLOTS = 19
-local addonName, addon = ...
+local addonName, _ = ...
 inv.items = inv.items or {}
 inv.inventory = inv.inventory or {}
 inv.locations = inv.locations or {}
