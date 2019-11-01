@@ -12,4 +12,4 @@
 
 libs\LibStub\LibStub.lua
 LibMail.lua
-LibInventories.lua
+LibInventory.lua
