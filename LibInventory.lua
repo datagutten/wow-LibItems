@@ -1,4 +1,7 @@
-local inv = LibStub:NewLibrary("LibInventory-0.1", 1)
+---A library to handle item inventory
+_G['LibInventory'] = {}
+local inv = _G['LibInventory']
+inv = LibStub:NewLibrary("LibInventory-0.1", 1)
 if not inv then
     return	-- already loaded and no upgrade necessary
 end

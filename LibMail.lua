@@ -1,7 +1,11 @@
-local lib = LibStub:NewLibrary("LibMail-0.1", 1)
+---A library to handle mails
+_G['LibMail'] = {}
+local lib = _G['LibMail']
+lib = LibStub:NewLibrary("LibMail-0.2", 1)
 if not lib then
     return	-- already loaded and no upgrade necessary
 end
+
 lib.mail_open = false
 local addonName = ...
 
