@@ -9,14 +9,21 @@ end
 lib.mail_open = false
 local addonName = ...
 
-function lib:recipient(recipient)
+---Set mail recipient
+---@param recipient string Mail recipient
+function lib:recipient(recipient) --TODO: Remove realm name if it is the current realm, maybe realm should be argument?
     SendMailNameEditBox:SetText(recipient)
 end
 
+--- Add money to a mail
+---@param amount number Copper amount to be added
 function lib:money(amount)
     SetSendMailMoney(amount)
 end
 
+
+---Set cash on delivery
+---@param amount number COD copper amount
 function lib:cod(amount)
     SetSendMailCOD(amount)
 end
@@ -26,7 +33,12 @@ function lib:send(target, subject, body)
     SendMail(target, SendMailSubjectEditBox:GetText() or subject or "", body or "")
 end
 
+---Add item as attachment to the current mail
+---@param bag number Bag id
+---@param slot number Slot inside the bag (top left slot is 1, slot to the right of it is 2)
+---@param key number The index of the item (1-ATTACHMENTS_MAX_SEND(12))
 function lib:AddAttachment(bag, slot, key)
+    -- https://wow.gamepedia.com/API_PickupContainerItem
     PickupContainerItem(bag, slot)
     ClickSendMailItemButton(key)
 end

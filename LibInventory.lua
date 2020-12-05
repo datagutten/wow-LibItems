@@ -8,14 +8,18 @@ end
 
 local addonName, _ = ...
 inv.items = inv.items or {}
+---Item locations indexed by bag and slot
 inv.inventory = inv.inventory or {}
+---Item locations indexed by itemID
 inv.locations = inv.locations or {}
 
 
---/dump LibStub("LibInventories-1.0").locations
---/dump LibStub("LibInventories-1.0").locations[2140][1]
+--/dump LibStub("LibInventory-0.1").locations
+--/dump LibStub("LibInventory-0.1").inventory
+--/dump LibStub("LibInventory-0.1").locations[2140][1]
 
-
+---Scan bag content and save to self.locations (indexed by itemID) and self.inventory (indexed by bag and slot)
+---@param bag number
 function inv:ScanBag(bag)
     --@debug@
     print('Scan bag', bag)
@@ -51,7 +55,7 @@ function inv:ScanBag(bag)
     end
 end
 
---/dump LibStub("LibInventories-1.0"):ScanAllBags()
+--/dump LibStub("LibInventory-0.1"):ScanAllBags()
 function inv:ScanAllBags()
     self.locations = {}
     for bag=0, 4, 1 do
@@ -60,7 +64,7 @@ function inv:ScanAllBags()
     return self.inventory
 end
 
---/dump LibStub("LibInventories-1.0"):FindItemStacks(765)
+--/dump LibStub("LibInventory-0.1"):FindItemStacks(765)
 function inv:FindItemStacks(itemID)
     if not self.inventory then
         self:ScanAllBags()
@@ -80,9 +84,10 @@ function inv:FindItemStacks(itemID)
 end
 
 --Wool cloth:
---/dump LibStub("LibInventories-1.0"):FindItem(2592)
---/dump LibStub("LibInventories-1.0").locations["2592"]
---/run print(LibStub("LibInventories-1.0").locations["2592"])
+--/dump LibStub("LibInventory-0.1"):FindItem(2592)
+--/dump LibStub("LibInventory-0.1").locations["2592"]
+---Find the location of an item
+---@param itemID number Item ID
 function inv:FindItem(itemID)
     local stacks = self:FindItemStacks(itemID)
     if stacks then
@@ -90,7 +95,7 @@ function inv:FindItem(itemID)
     end
 end
 
---/run LibStub("LibInventories-1.0"):ListBag(0)
+--/run LibStub("LibInventory-0.1"):ListBag(0)
 function inv:ListBag(bag)
     for _, slot in pairs(self.inventory[bag]) do
         if self.inventory[bag][slot] then
