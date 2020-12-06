@@ -4,4 +4,4 @@ externals:
     url: https://repos.wowace.com/wow/libstub/trunk
     tag: latest
 
-enable-nolib-creation: no
+enable-nolib-creation: yes
