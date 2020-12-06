@@ -49,6 +49,43 @@ function lib:AddAttachment(bag, slot, key)
     ClickSendMailItemButton(key)
 end
 
+function lib:NumMails()
+    local numItems, totalItems = GetInboxNumItems()
+    return numItems, totalItems
+end
+
+--/dump LibStub("LibMail-0.2"):GetMailItems(2)
+function lib:GetMailItems(mailIndex)
+    local mailItems = {}
+    local hasItem = select(8, GetInboxHeaderInfo(mailIndex))
+
+    if hasItem == nil then
+        return {}
+    end
+    local itemInfo, itemLink
+    for itemIndex=1, ATTACHMENTS_MAX_RECEIVE, 1 do
+        local _, itemID, itemTexture, count, quality, _ = GetInboxItem(mailIndex, itemIndex)
+        if itemID then
+
+            itemLink = GetInboxItemLink(mailIndex, itemIndex)
+            itemInfo = { ["icon"] = itemTexture, ["itemCount"] = count, ["quality"] = quality,
+                         ["itemLink"] = itemLink, ["itemID"] = itemID }
+            table.insert(mailItems, itemInfo)
+        end
+    end
+    return mailItems
+end
+
+
+--/dump LibStub("LibMail-0.2"):GetItem(1081, "Quadduo")
+function lib:GetItem(itemID, character)
+    character = self.utils:GetCharacterString(character)
+    if MailItems[character][itemID] ~= nil and MailItems[character][itemID] > 0 then
+        return MailItems[character][itemID]
+    end
+end
+
+
 function lib:attachments(attachments, positions)
     local position
     for key, itemID in ipairs(attachments) do

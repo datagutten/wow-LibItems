@@ -3,5 +3,8 @@ externals:
   libs/LibStub:
     url: https://repos.wowace.com/wow/libstub/trunk
     tag: latest
+  libs/BM-utils:
+    url: https://github.com/Beast-Masters-addons/BM-utils.git
+    tag: v1.1.1
 
 enable-nolib-creation: yes
