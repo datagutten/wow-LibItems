@@ -103,17 +103,3 @@ function inv:ListBag(bag)
         end
     end
 end
-
-inv.frame = CreateFrame("FRAME"); -- Need a frame to respond to events
-inv.frame:RegisterEvent("ADDON_LOADED"); -- Fired when saved variables are loaded
-
-function inv:eventHandler(event, arg1)
-    --https://wowwiki.fandom.com/wiki/Events/Item
-    if event == "ADDON_LOADED" and arg1 == addonName then
-        inv.frame:RegisterEvent("BAG_UPDATE")
-    elseif event == "BAG_UPDATE" then
-        --print(event, arg1)
-        inv:ScanBag(arg1)
-    end
-end
-inv.frame:SetScript("OnEvent", inv.eventHandler);
