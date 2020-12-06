@@ -1,7 +1,16 @@
 ---A library to handle item inventory
 _G['LibInventory'] = {}
+_G['LibInventory-@project-version@'] = _G['LibInventory']
 local inv = _G['LibInventory']
-inv = LibStub:NewLibrary("LibInventory-0.1", 1)
+inv.version = '@project-version@'
+
+if LibStub then
+    local major, minor = string.match('@project-version@', 'v(%d+).(%d+)')
+    major = tonumber(major)
+    minor = tonumber(minor)
+    inv = LibStub:NewLibrary("LibInventory-"..major, minor)
+end
+
 if not inv then
     return	-- already loaded and no upgrade necessary
 end

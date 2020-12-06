@@ -1,9 +1,15 @@
 ---A library to handle mails
 _G['LibMail'] = {}
 local lib = _G['LibMail']
-lib = LibStub:NewLibrary("LibMail-0.2", 1)
-if not lib then
-    return	-- already loaded and no upgrade necessary
+lib.utils = _G['BMUtils']
+lib.version = '@project-version@'
+
+if LibStub then
+	lib.utils = LibStub('BM-utils-1.0')
+    lib = LibStub:NewLibrary("LibMail-0.2", 1)
+    if not lib then
+        return	-- already loaded and no upgrade necessary
+    end
 end
 
 lib.mail_open = false
