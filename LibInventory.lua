@@ -13,7 +13,6 @@ if not inv then
     return	-- already loaded and no upgrade necessary
 end
 
-local addonName, _ = ...
 inv.items = inv.items or {}
 ---Item locations indexed by bag and slot
 inv.inventory = inv.inventory or {}
