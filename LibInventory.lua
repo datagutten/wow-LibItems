@@ -5,9 +5,7 @@ local inv = _G['LibInventory']
 inv.version = '@project-version@'
 
 if LibStub then
-    local major, minor = string.match('@project-version@', 'v(%d+).(%d+)')
-    major = tonumber(major)
-    minor = tonumber(minor)
+    local major, minor = _G['BMUtils-Version'].parse_version(inv.version)
     inv = LibStub:NewLibrary("LibInventory-"..major, minor)
 end
 
