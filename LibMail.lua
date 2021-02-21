@@ -3,10 +3,11 @@ _G['LibMail'] = {}
 local lib = _G['LibMail']
 lib.utils = _G['BMUtils']
 lib.version = '@project-version@'
+lib.v_major, lib.v_minor = _G['BMUtils-Version'].parse_version(lib.version)
 
 if LibStub then
-	lib.utils = LibStub('BM-utils-1.0')
-    lib = LibStub:NewLibrary("LibMail-0.2", 1)
+	lib.utils = LibStub('BM-utils-1')
+    lib = LibStub:NewLibrary("LibMail-"..lib.v_major, lib.v_minor)
     if not lib then
         return	-- already loaded and no upgrade necessary
     end
