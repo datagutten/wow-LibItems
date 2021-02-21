@@ -2,6 +2,9 @@
 _G['LibInventory'] = {}
 _G['LibInventory-@project-version@'] = _G['LibInventory']
 local inv = _G['LibInventory']
+inv.mail = _G['LibInventoryMail-@project-version@']
+inv.utils = _G['BMUtils']
+
 inv.version = '@project-version@'
 
 if LibStub then

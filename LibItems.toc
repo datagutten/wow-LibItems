@@ -14,5 +14,5 @@
 #@no-lib-strip@
 libs\LibStub\LibStub.lua
 #@end-no-lib-strip@
-LibMail.lua
+addon\mail.lua
 LibInventory.lua
