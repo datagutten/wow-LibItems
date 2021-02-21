@@ -15,4 +15,4 @@
 libs\LibStub\LibStub.lua
 #@end-no-lib-strip@
 addon\mail.lua
-LibInventory.lua
+addon\LibInventory.lua
