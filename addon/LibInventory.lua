@@ -7,16 +7,15 @@ inv.utils = _G['BMUtils']
 
 inv.version = '@project-version@'
 
-if LibStub then
+if _G['LibStub'] ~= nil then
     local major, minor = _G['BMUtils-Version'].parse_version(inv.version)
-    inv = LibStub:NewLibrary("LibInventory-"..major, minor)
+    inv = _G.LibStub:NewLibrary("LibInventory-"..major, minor)
 end
 
 if not inv then
     return	-- already loaded and no upgrade necessary
 end
 
-inv.items = inv.items or {}
 ---Item locations indexed by bag and slot
 inv.inventory = inv.inventory or {}
 ---Item locations indexed by itemID
@@ -33,7 +32,7 @@ function inv:ScanBag(bag)
     --@debug@
     print('Scan bag', bag)
     --@end-debug@
-    local slots = GetContainerNumSlots(bag)
+    local slots = _G.GetContainerNumSlots(bag)
     self.inventory[bag] = {}
 
     for itemID, locations in pairs(self.locations) do
@@ -49,12 +48,11 @@ function inv:ScanBag(bag)
         --local itemLink = GetContainerItemLink(bag, slot)
         local item
         local icon, itemCount, locked, quality, readable, lootable, itemLink,
-        isFiltered, noValue, itemID = GetContainerItemInfo(bag, slot)
+        isFiltered, noValue, itemID = _G.GetContainerItemInfo(bag, slot)
         if itemID ~= nil then
             item = {["bag"]=bag, ["slot"]=slot, ["icon"]=icon, ["itemCount"]=itemCount, ["locked"]=locked,
                     ["quality"]=quality, ["readable"]=readable, ["lootable"]=lootable, ["itemLink"]=itemLink,
                     ["isFiltered"]=isFiltered, ["noValue"]=noValue, ["itemID"]=itemID}
-            self.items[itemID] = item --TODO: Remove this and replace usages with inventory
             self.inventory[bag][slot] = item
             if not self.locations[itemID] then
                 self.locations[itemID] = {}
