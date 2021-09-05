@@ -47,8 +47,8 @@ jobs:
 
       - name: Install test luaunit and luacov
         run: |
-          luarocks install luaunit
-          luarocks install luacov
+          sudo luarocks install luaunit
+          sudo luarocks install luacov
 
       - name: Run tests
         working-directory: tests
@@ -61,4 +61,4 @@ jobs:
       - name: WoW Packager
         uses: BigWigsMods/packager@v1
         with:
-          args: -g ${{ matrix.game_version }} -o
+          args: -g ${{ matrix.game_version }}
