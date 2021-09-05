@@ -58,6 +58,8 @@ jobs:
       - name: Run tests
         working-directory: ./tests
         run: |
+          pwd
+          ls -l build_utils
           ls build_utils/wow_api
           lua -l luacov InventoryTest.lua
 
