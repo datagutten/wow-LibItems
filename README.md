@@ -1,6 +1,4 @@
 # Lib: Inventory
-Two libraries to keep track of owned items and mail them to other characters. Written for and used by my addon ProfessionMailer.
+A library to keep track of owned items and mail them to other characters. Written for and used by my addon ProfessionMailer.
 
-The library can be loaded with LibStub:
-
-`local inventory = LibStub("LibInventory-0")`
+The library should be a standalone addon and not embedded in others.
