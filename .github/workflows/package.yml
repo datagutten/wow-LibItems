@@ -20,6 +20,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         game_version: [ 'retail', 'classic', 'bcc' ]
 
@@ -51,7 +52,7 @@ jobs:
           sudo luarocks install luacov
 
       - name: Run tests
-        working-directory: tests
+        working-directory: ./tests
         run: |
           lua -l luacov InventoryTests.lua
 
