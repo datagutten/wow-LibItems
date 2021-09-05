@@ -8,7 +8,11 @@ local addonName = ...
 
 ---Set mail recipient
 ---@param recipient string Mail recipient
-function mail:recipient(recipient) --TODO: Remove realm name if it is the current realm, maybe realm should be argument?
+function mail:recipient(recipient)
+    local character, realm = addon.utils:SplitCharacterString(recipient)
+    if realm == _G.GetRealmName() then
+        recipient = character
+    end
     SendMailNameEditBox:SetText(recipient)
 end
 
