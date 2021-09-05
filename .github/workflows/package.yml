@@ -52,8 +52,8 @@ jobs:
           sudo luarocks install luacov
 
       - name: Run tests
-        working-directory: ./tests
         run: |
+          cd tests
           lua -l luacov InventoryTests.lua
 
       - name: Upload coverage to Codecov
