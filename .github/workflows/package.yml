@@ -35,9 +35,9 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Get build utils
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
         with:
-          name: Beast-Masters-addons/build_utils
+          repository: Beast-Masters-addons/build_utils
           path: tests/build_utils
 
       - name: Get dependencies
@@ -58,9 +58,6 @@ jobs:
       - name: Run tests
         working-directory: ./tests
         run: |
-          pwd
-          ls -l build_utils
-          ls build_utils/wow_api
           lua -l luacov InventoryTest.lua
 
       - name: Install and run Luacheck
