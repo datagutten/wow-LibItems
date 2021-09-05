@@ -45,6 +45,19 @@ jobs:
           path: 'addon'
           annotate: warning
 
+      - name: Install test luaunit and luacov
+        run: |
+          luarocks install luaunit
+          luarocks install luacov
+
+      - name: Run tests
+        working-directory: tests
+        run: |
+          lua -l luacov InventoryTests.lua
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+
       - name: WoW Packager
         uses: BigWigsMods/packager@v1
         with:
