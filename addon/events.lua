@@ -2,7 +2,6 @@
 local _, addon = ...
 ---@class LibInventoryEvents Inventory event handler
 local events = addon.events
-events.addon = addon
 
 local frame = _G.CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
@@ -12,6 +11,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
     end
     events[event](self, ...)
 end)
+frame.addon = addon
 
 function events:ADDON_LOADED(addonName)
     if addonName == self.addon.name then
