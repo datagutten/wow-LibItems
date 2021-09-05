@@ -5,6 +5,7 @@ local mail = _G['LibInventoryMail']
 
 mail.mail_open = false
 mail.attachment_key = 0
+mail.items = {}
 
 ---Set mail recipient
 ---@param recipient string Mail recipient
@@ -20,6 +21,7 @@ end
 ---@param amount number Copper amount to be added
 function mail:money(amount)
     _G.SetSendMailMoney(amount)
+    self.money = amount
 end
 
 
@@ -27,11 +29,14 @@ end
 ---@param amount number COD copper amount
 function mail:cod(amount)
     _G.SetSendMailCOD(amount)
+    self.cod = amount
 end
 
 function mail:send(target, subject, body)
     --https://wowwiki.fandom.com/wiki/API_SendMail
     _G.SendMail(target, _G.SendMailSubjectEditBox:GetText() or subject or "", body or "")
+    self.body = body
+    self.subject = subject
 end
 
 ---Add item as attachment to the current mail
@@ -48,7 +53,9 @@ end
 
 function mail:NumMails()
     local numItems, totalItems = _G.GetInboxNumItems()
-    return numItems, totalItems
+    self.mail_count = numItems
+    self.mail_total = totalItems
+    return numItems
 end
 
 --/dump LibInventoryMail:GetMailItems(2)
@@ -70,6 +77,7 @@ function mail:GetMailItems(mailIndex)
             table.insert(mailItems, itemInfo)
         end
     end
+    self.items[mailIndex] = mailItems
     return mailItems
 end
 
