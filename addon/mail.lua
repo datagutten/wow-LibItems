@@ -24,7 +24,6 @@ function mail:money(amount)
     self.money = amount
 end
 
-
 ---Set cash on delivery
 ---@param amount number COD copper amount
 function mail:cod(amount)
@@ -67,7 +66,7 @@ function mail:GetMailItems(mailIndex)
         return {}
     end
     local itemInfo, itemLink
-    for itemIndex=1, _G.ATTACHMENTS_MAX_RECEIVE, 1 do
+    for itemIndex = 1, _G.ATTACHMENTS_MAX_RECEIVE, 1 do
         local _, itemID, itemTexture, count, quality, _ = _G.GetInboxItem(mailIndex, itemIndex)
         if itemID then
 
@@ -90,14 +89,14 @@ function mail:GetItem(itemID, character)
     end
 end
 
-
 function mail:attachments(attachments, positions)
     local position
     for key, itemID in ipairs(attachments) do
         position = positions[itemID]
         if position then
             --@debug@
-            self.utils:printf('Attach itemID %s as attachment %d from container %d slot %d', itemID, key, position["bag"], position["slot"])
+            self.utils:printf('Attach itemID %s as attachment %d from container %d slot %d',
+                    itemID, key, position["bag"], position["slot"])
             --@end-debug@
             _G.PickupContainerItem(position["bag"], position["slot"])
             _G.ClickSendMailItemButton(key)
@@ -108,7 +107,6 @@ end
 --Initialize events
 local frame = _G.CreateFrame("FRAME");
 frame:RegisterEvent("ADDON_LOADED");
-
 
 function mail:eventHandler(event, arg1)
     -- https://wowwiki.fandom.com/wiki/Events/Mail
