@@ -13,25 +13,25 @@ function mail:recipient(recipient)
     if realm == _G.GetRealmName() then
         recipient = character
     end
-    SendMailNameEditBox:SetText(recipient)
+    _G.SendMailNameEditBox:SetText(recipient)
 end
 
 --- Add money to a mail
 ---@param amount number Copper amount to be added
 function mail:money(amount)
-    SetSendMailMoney(amount)
+    _G.SetSendMailMoney(amount)
 end
 
 
 ---Set cash on delivery
 ---@param amount number COD copper amount
 function mail:cod(amount)
-    SetSendMailCOD(amount)
+    _G.SetSendMailCOD(amount)
 end
 
 function mail:send(target, subject, body)
     --https://wowwiki.fandom.com/wiki/API_SendMail
-    SendMail(target, SendMailSubjectEditBox:GetText() or subject or "", body or "")
+    _G.SendMail(target, _G.SendMailSubjectEditBox:GetText() or subject or "", body or "")
 end
 
 ---Add item as attachment to the current mail
@@ -47,24 +47,24 @@ function mail:AddAttachment(bag, slot, key)
 end
 
 function mail:NumMails()
-    local numItems, totalItems = GetInboxNumItems()
+    local numItems, totalItems = _G.GetInboxNumItems()
     return numItems, totalItems
 end
 
 --/dump LibInventoryMail:GetMailItems(2)
 function mail:GetMailItems(mailIndex)
     local mailItems = {}
-    local hasItem = select(8, GetInboxHeaderInfo(mailIndex))
+    local hasItem = select(8, _G.GetInboxHeaderInfo(mailIndex))
 
     if hasItem == nil then
         return {}
     end
     local itemInfo, itemLink
-    for itemIndex=1, ATTACHMENTS_MAX_RECEIVE, 1 do
-        local _, itemID, itemTexture, count, quality, _ = GetInboxItem(mailIndex, itemIndex)
+    for itemIndex=1, _G.ATTACHMENTS_MAX_RECEIVE, 1 do
+        local _, itemID, itemTexture, count, quality, _ = _G.GetInboxItem(mailIndex, itemIndex)
         if itemID then
 
-            itemLink = GetInboxItemLink(mailIndex, itemIndex)
+            itemLink = _G.GetInboxItemLink(mailIndex, itemIndex)
             itemInfo = { ["icon"] = itemTexture, ["itemCount"] = count, ["quality"] = quality,
                          ["itemLink"] = itemLink, ["itemID"] = itemID }
             table.insert(mailItems, itemInfo)
@@ -77,8 +77,8 @@ end
 --/dump LibInventoryMail:GetItem(1081, "Quadduo")
 function mail:GetItem(itemID, character)
     character = self.utils:GetCharacterString(character)
-    if MailItems[character][itemID] ~= nil and MailItems[character][itemID] > 0 then
-        return MailItems[character][itemID]
+    if _G.MailItems[character][itemID] ~= nil and _G.MailItems[character][itemID] > 0 then
+        return _G.MailItems[character][itemID]
     end
 end
 
@@ -91,14 +91,14 @@ function mail:attachments(attachments, positions)
             --@debug@
             self.utils:printf('Attach itemID %s as attachment %d from container %d slot %d', itemID, key, position["bag"], position["slot"])
             --@end-debug@
-            PickupContainerItem(position["bag"], position["slot"])
-            ClickSendMailItemButton(key)
+            _G.PickupContainerItem(position["bag"], position["slot"])
+            _G.ClickSendMailItemButton(key)
         end
     end
 end
 
 --Initialize events
-local frame = CreateFrame("FRAME");
+local frame = _G.CreateFrame("FRAME");
 frame:RegisterEvent("ADDON_LOADED");
 
 
@@ -113,7 +113,7 @@ function mail:eventHandler(event, arg1)
         self.mail_open = true
     elseif event == "MAIL_CLOSED" then
         self.mail_open = false
-        ClearCursor()
+        _G.ClearCursor()
     elseif event == "MAIL_SEND_SUCCESS" then
         self.attachment_key = 0
     end
