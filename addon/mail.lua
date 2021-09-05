@@ -4,7 +4,7 @@ _G['LibInventoryMail-@project-version@'] = _G['LibInventoryMail']
 local mail = _G['LibInventoryMail']
 
 mail.mail_open = false
-local addonName = ...
+mail.attachment_key = 0
 
 ---Set mail recipient
 ---@param recipient string Mail recipient
@@ -39,9 +39,11 @@ end
 ---@param slot number Slot inside the bag (top left slot is 1, slot to the right of it is 2)
 ---@param key number The index of the item (1-ATTACHMENTS_MAX_SEND(12))
 function mail:AddAttachment(bag, slot, key)
+    addon.utils:sprintf('Attach item from container %d slot %d to %d', bag, slot, key or self.attachment_key)
     -- https://wow.gamepedia.com/API_PickupContainerItem
-    PickupContainerItem(bag, slot)
-    ClickSendMailItemButton(key)
+    _G.PickupContainerItem(bag, slot)
+    _G.ClickSendMailItemButton(key or self.attachment_key)
+    self.attachment_key = self.attachment_key + 1
 end
 
 function mail:NumMails()
@@ -87,7 +89,7 @@ function mail:attachments(attachments, positions)
         position = positions[itemID]
         if position then
             --@debug@
-            print(item["itemID"], key, position["bag"], position["slot"])
+            self.utils:printf('Attach itemID %s as attachment %d from container %d slot %d', itemID, key, position["bag"], position["slot"])
             --@end-debug@
             PickupContainerItem(position["bag"], position["slot"])
             ClickSendMailItemButton(key)
@@ -112,6 +114,8 @@ function mail:eventHandler(event, arg1)
     elseif event == "MAIL_CLOSED" then
         self.mail_open = false
         ClearCursor()
+    elseif event == "MAIL_SEND_SUCCESS" then
+        self.attachment_key = 0
     end
 end
 frame:SetScript("OnEvent", mail.eventHandler);
