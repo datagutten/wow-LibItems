@@ -52,8 +52,9 @@ jobs:
           sudo luarocks install luacov
 
       - name: Run tests
+        working-directory: ./tests
         run: |
-          cd tests
+          ls build_utils/wow_api
           lua -l luacov InventoryTest.lua
 
       - name: Upload coverage to Codecov
