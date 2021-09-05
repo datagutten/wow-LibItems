@@ -40,14 +40,18 @@ jobs:
           name: Beast-Masters-addons/build_utils
           path: tests/build_utils
 
-      - name: Install and run Luacheck
-        uses: nebularg/actions-luacheck@v1
+      - name: Get dependencies
+        uses: BigWigsMods/packager@v1.0.2
         with:
-          path: 'addon'
-          annotate: warning
+          args: -g ${{ matrix.game_version }} -d -z
 
-      - name: Install test luaunit and luacov
+      - name: Move libs
+        run: mv .release/LibInventory/libs .
+
+      - name: Install luaunit and luacov
         run: |
+          sudo apt-get update
+          sudo apt-get -y install luarocks
           sudo luarocks install luaunit
           sudo luarocks install luacov
 
@@ -57,8 +61,14 @@ jobs:
           ls build_utils/wow_api
           lua -l luacov InventoryTest.lua
 
+      - name: Install and run Luacheck
+        uses: nebularg/actions-luacheck@v1
+        with:
+          path: 'addon'
+          annotate: warning
+
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v1.0.2
 
       - name: WoW Packager
         uses: BigWigsMods/packager@v1
