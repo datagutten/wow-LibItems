@@ -1,7 +1,9 @@
----A library to handle mails
-_G['LibInventoryMail'] = {}
-_G['LibInventoryMail-@project-version@'] = _G['LibInventoryMail']
-local mail = _G['LibInventoryMail']
+---@type LibInventory
+local _, addon = ...
+
+---@class LibInventoryMail Library to send and extract items from mail
+local mail = addon.mail
+mail.addon = addon
 
 mail.mail_open = false
 mail.attachment_key = 0
@@ -10,7 +12,7 @@ mail.items = {}
 ---Set mail recipient
 ---@param recipient string Mail recipient
 function mail:recipient(recipient)
-    local character, realm = addon.utils:SplitCharacterString(recipient)
+    local character, realm = self.addon.utils:SplitCharacterString(recipient)
     if realm == _G.GetRealmName() then
         recipient = character
     end
@@ -43,7 +45,7 @@ end
 ---@param slot number Slot inside the bag (top left slot is 1, slot to the right of it is 2)
 ---@param key number The index of the item (1-ATTACHMENTS_MAX_SEND(12))
 function mail:AddAttachment(bag, slot, key)
-    addon.utils:sprintf('Attach item from container %d slot %d to %d', bag, slot, key or self.attachment_key)
+    self.addon.utils:sprintf('Attach item from container %d slot %d to %d', bag, slot, key or self.attachment_key)
     -- https://wow.gamepedia.com/API_PickupContainerItem
     _G.PickupContainerItem(bag, slot)
     _G.ClickSendMailItemButton(key or self.attachment_key)
@@ -110,7 +112,7 @@ frame:RegisterEvent("ADDON_LOADED");
 
 function mail:eventHandler(event, arg1)
     -- https://wowwiki.fandom.com/wiki/Events/Mail
-    if event == "ADDON_LOADED" and arg1 == addonName then
+    if event == "ADDON_LOADED" and arg1 == addon.name then
         frame:RegisterEvent("MAIL_SEND_SUCCESS")
         frame:RegisterEvent("MAIL_SHOW")
         frame:RegisterEvent("MAIL_FAILED")

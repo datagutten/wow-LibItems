@@ -1,18 +1,24 @@
-#@retail@
-## Interface: 90001
-#@end-retail@
-#@non-retail@
-# ## Interface: 11306
-#@end-non-retail@
+## Interface: 90100
+## Interface-Retail: 90100
+## Interface-Classic: 11307
+## Interface-BCC: 20502
 ## Version: @project-version@
 ## Author: datagutten
 ## Title: Lib: Inventory
 ## Notes: Find items in bags, bank and mail and send them as mail attachments
 ## X-Curse-Project-ID: 344823
 ## OptionalDeps: LibStub
+## SavedVariables: ItemLocations, LocationItems, ContainerLocation
 
 #@no-lib-strip@
 libs\LibStub\LibStub.lua
+libs\BM-utils\lib.xml
 #@end-no-lib-strip@
+addon\common.lua
+addon\Inventory.lua
+addon\Container.lua
 addon\mail.lua
-addon\LibInventory.lua
+addon\MailInventory.lua
+addon\Bank.lua
+addon\Equipment.lua
+addon\events.lua
