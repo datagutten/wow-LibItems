@@ -75,6 +75,9 @@ end
 ---/run LibInventoryItems.main:clearLocation('Bags')
 function lib:clearLocation(location, character, realm)
     character = self.addon.utils:GetCharacterString(character, realm)
+    if self.locations[character] == nil then
+        self.locations[character] = {}
+    end
     self.locations[character][location] = {}
     for itemID, characters in pairs(self.items) do
         for character_iter, locations in pairs(characters) do
