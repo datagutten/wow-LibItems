@@ -5,7 +5,6 @@ local lib = addon.mailInventory
 lib.addon = addon
 
 function lib:scanMail()
-    --self:clearItemLocation('Mail')
     self.addon.main:clearLocation('mail')
     local mails = self.addon.mail:NumMails()
     --@debug@
@@ -27,7 +26,6 @@ function lib:scanMail()
         end
     end
     for itemID, itemCount in pairs(mailItemCount) do
-        --self:saveItemLocation(itemID, 'Mail', itemCount)
         self.addon.main:saveItemLocation(itemID, 'mail', itemCount)
     end
 end
