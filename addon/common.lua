@@ -8,6 +8,7 @@ if not addon then
 end
 _G['LibInventory-@project-version@'] = addon
 addon.version = '@project-version@'
+addon.name = ...
 
 ---@type BMUtils
 addon.utils, minor = _G.LibStub('BM-utils-1')
