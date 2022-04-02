@@ -6,7 +6,7 @@ if not addon then
     return    -- already loaded and no upgrade necessary
     -- luacov: enable
 end
-_G['LibInventory-@project-version'] = addon
+_G['LibInventory-@project-version@'] = addon
 addon.version = '@project-version@'
 
 ---@type BMUtils

@@ -1,5 +1,5 @@
 ---@type LibInventory
-local addon = _G['LibInventory-@project-version']
+local addon = _G['LibInventory-@project-version@']
 
 ---@class LibInventoryMain
 local lib = addon.main
