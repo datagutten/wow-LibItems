@@ -1,11 +1,14 @@
+local major, minor = _G['BMUtils-Version'].parse_version('@project-version@')
 ---@class LibInventory
-local addonName, addon = ...
-addon.name = addonName
-addon.version = '@version@'
-_G['LibItems'] = addon
-_G['LibInventoryItems'] = addon
+local addon = _G.LibStub:NewLibrary("LibInventory-" .. major, minor)
+if not addon then
+    -- luacov: disable
+    return    -- already loaded and no upgrade necessary
+    -- luacov: enable
+end
+_G['LibInventory-@project-version'] = addon
+addon.version = '@project-version@'
 
-local minor
 ---@type BMUtils
 addon.utils, minor = _G.LibStub('BM-utils-1')
 assert(minor >= 6, ('BMUtils 1.6 or higher is required, found 1.%d'):format(minor))

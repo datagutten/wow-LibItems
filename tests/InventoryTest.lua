@@ -2,7 +2,7 @@ loadfile('build_utils/wow_api/frame.lua')()
 loadfile('build_utils/wow_api/functions.lua')()
 loadfile('build_utils/utils/load_toc.lua')('../LibInventory.toc')
 ---@type LibInventory
-local addon = _G['AddonTable']
+local addon = _G['LibInventory-@project-version']
 
 local lu = require('luaunit')
 _G['test'] = {}
