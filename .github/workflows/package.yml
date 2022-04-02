@@ -1,4 +1,4 @@
-name: Package and release
+name: Test and package
 
 # Controls when the action will run. 
 on:
@@ -15,24 +15,18 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  test:
     runs-on: ubuntu-latest
+
     strategy:
       fail-fast: false
       matrix:
-        game_version: [ 'retail', 'classic', 'bcc' ]
+        game_version: [ 'classic', 'bcc', 'retail' ]
 
-    env:
-      CF_API_KEY: ${{ secrets.CF_API_KEY }}
-      WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
-      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Get build utils
         uses: actions/checkout@v2
@@ -40,38 +34,66 @@ jobs:
           repository: Beast-Masters-addons/build_utils
           path: tests/build_utils
 
-      - name: Get dependencies
-        uses: BigWigsMods/packager@v1.0.2
-        with:
-          args: -g ${{ matrix.game_version }} -d -z
-
-      - name: Move libs
-        run: mv .release/LibInventory/libs .
-
-      - name: Install luaunit and luacov
+      - name: Install lua dependencies
         run: |
           sudo apt-get update
           sudo apt-get -y install luarocks
           sudo luarocks install luaunit
           sudo luarocks install luacov
+          sudo luarocks install luacheck
+
+      - name: Run luacheck
+        run: luacheck addon
+
+      - name: Build the addon
+        uses: BigWigsMods/packager@v1.0.1
+        with:
+          args: -g ${{ matrix.game_version }} -z -d
+
+      - name: Move libraries and compiled metadata files
+        run: |
+          mv .release/LibInventory/libs .
+          mv .release/LibInventory/LibInventory.toc .
 
       - name: Run tests
         working-directory: ./tests
-        run: |
-          lua -l luacov InventoryTest.lua
-
-      - name: Install and run Luacheck
-        uses: nebularg/actions-luacheck@v1
-        with:
-          path: 'addon'
-          annotate: warning
+        run: lua -l luacov InventoryTest.lua
+        env:
+          GAME_VERSION: ${{ matrix.game_version }}
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v1
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        game_version: [ 'classic', 'bcc', 'retail' ]
+
+    needs:
+      - test
+
+    env:
+      CF_API_KEY: ${{ secrets.CF_API_KEY }}
+      WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get build utils
+        uses: actions/checkout@v2
         with:
-          files: ./tests/luacov.stats.out
+          repository: Beast-Masters-addons/build_utils
+          path: tests/build_utils
 
       - name: WoW Packager
-        uses: BigWigsMods/packager@v1
+        uses: BigWigsMods/packager@v1.0.1
         with:
           args: -g ${{ matrix.game_version }}
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.game_version }}
+          path: .release
