@@ -16,6 +16,7 @@ lib.location_names = {
     reagentBank = _G.REAGENT_BANK,
     bags = _G.BAGSLOT,
     voidStorage = _G.VOID_STORAGE,
+    mail = _G.MAIL_LABEL,
 }
 
 function lib.subTableCheck(tableData, ...)
@@ -105,5 +106,5 @@ end
 ---Get localized location name
 ---@param location string
 function lib:locationName(location)
-    return self.location_names[location]
+    return self.location_names[location] or location
 end
