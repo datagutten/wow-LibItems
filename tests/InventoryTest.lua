@@ -8,6 +8,14 @@ local lu = require('luaunit')
 _G['test'] = {}
 local test = _G['test']
 
+function _G.UnitName()
+    return 'Quadduo'
+end
+
+function _G.GetRealmName()
+    return 'The Maelstrom'
+end
+
 function test.setUp()
     addon.main.locations = {}
     addon.main.items = {}
@@ -25,6 +33,16 @@ function test.testGetItemLocation()
     addon.main:saveItemLocation(123, 'Bag', 10, 'Quadduo', 'The Maelstrom')
     local location = addon.main:getItemLocation(123, 'Quadduo', 'The Maelstrom')
     lu.assertEquals(location, { Bag = 10 })
+end
+
+function test.testClear()
+    addon.main:saveItemLocation(123, 'mail', 10, 'Quadduo', 'The Maelstrom')
+    local location = addon.main:getItemLocation(123, 'Quadduo', 'The Maelstrom')
+    lu.assertEquals(location, { mail = 10 })
+    addon.main:saveItemLocation(123, 'bag', 10, 'Quadduo', 'The Maelstrom')
+    addon.main:clearLocation('mail')
+    location = addon.main:getItemLocation(123, 'Quadduo', 'The Maelstrom')
+    lu.assertEquals(location, { bag = 10 })
 end
 
 os.exit(lu.LuaUnit.run())
