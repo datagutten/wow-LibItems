@@ -43,7 +43,7 @@ jobs:
           sudo luarocks install luacheck
 
       - name: Run luacheck
-        run: luacheck addon
+        run: luacheck addon --no-self
 
       - name: Build the addon
         uses: BigWigsMods/packager@v1.0.1
