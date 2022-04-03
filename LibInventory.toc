@@ -14,11 +14,4 @@
 libs\LibStub\LibStub.lua
 libs\BM-utils\lib.xml
 #@end-no-lib-strip@
-addon\common.lua
-addon\Inventory.lua
-addon\Container.lua
-addon\mail.lua
-addon\MailInventory.lua
-addon\Bank.lua
-addon\Equipment.lua
-addon\events.lua
+lib.xml
