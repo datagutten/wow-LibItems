@@ -30,10 +30,9 @@ function events:ADDON_LOADED(addonName)
         end
         addon.main.items = _G['LocationItems']
 
-        if _G['ContainerLocation'] == nil then
-            _G['ContainerLocation'] = {}
+        if _G['ContainerSlot'] == nil then
+            _G['ContainerSlot'] = {}
         end
-        addon.container.location = _G['ContainerLocation']
 
         self:RegisterEvent('MAIL_INBOX_UPDATE')
         self:RegisterEvent('BAG_UPDATE')

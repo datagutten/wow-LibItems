@@ -7,7 +7,8 @@
 ## Notes: Find items in bags, bank and mail and send them as mail attachments
 ## X-Curse-Project-ID: 344823
 ## OptionalDeps: LibStub
-## SavedVariables: ItemLocations, LocationItems, ContainerLocation
+## SavedVariables: ItemLocations, LocationItems
+## SavedVariablesPerCharacter: ContainerSlot
 
 #@no-lib-strip@
 libs\LibStub\LibStub.lua
