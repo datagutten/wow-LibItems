@@ -11,7 +11,7 @@ function lib:scanGuildBank()
     local numTabs = _G.GetNumGuildBankTabs()
 
     for tab = 1, numTabs do
-        for i = 1, _G.MAX_GUILDBANK_SLOTS_PER_TAB do
+        for i = 1, 14 * 7 do
             local _, itemCount = _G.GetGuildBankItemInfo(tab, i);
             if itemCount > 0 then
                 local link = _G.GetGuildBankItemLink(tab, i)
