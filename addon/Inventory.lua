@@ -42,6 +42,8 @@ function lib:saveItemLocation(itemID, location, quantity, character, realm)
 
 end
 
+--/dump _G['LibInventory-@project-version@'].main:getItemLocation(7070, 'Luckydime', 'Mirage Raceway')
+---Get item count and which container it is located in
 function lib:getItemLocation(itemID, character, realm)
     if not self.items[itemID] then
         return {}
@@ -49,9 +51,9 @@ function lib:getItemLocation(itemID, character, realm)
 
     if character then
         character = self.addon.utils:GetCharacterString(character, realm)
-        return self.items[itemID][character]
+        return self.items[itemID][character] or {}
     else
-        return self.items[itemID]
+        return self.items[itemID] or {}
     end
 end
 
