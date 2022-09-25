@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        game_version: [ 'classic', 'bcc', 'retail' ]
+        game_version: [ 'classic', 'wrath', 'retail' ]
 
 
     steps:
@@ -66,11 +66,6 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        game_version: [ 'classic', 'bcc', 'retail' ]
-
     needs:
       - test
 
@@ -78,6 +73,7 @@ jobs:
       CF_API_KEY: ${{ secrets.CF_API_KEY }}
       WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
       GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+      WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
 
     steps:
       - uses: actions/checkout@v2
@@ -89,9 +85,7 @@ jobs:
           path: tests/build_utils
 
       - name: WoW Packager
-        uses: BigWigsMods/packager@v1.0.1
-        with:
-          args: -g ${{ matrix.game_version }}
+        uses: BigWigsMods/packager@v2.0.11
 
       - uses: actions/upload-artifact@v3
         with:

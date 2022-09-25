@@ -1,11 +1,12 @@
-## Interface-Retail: 90200
-## Interface-Classic: 11402
-## Interface-BCC: 20504
+## Interface: 90207
+## Interface-Classic: 11403
+## Interface-Wrath: 30400
 ## Version: @project-version@
 ## Author: datagutten
 ## Title: Lib: Inventory
 ## Notes: Find items in bags, bank and mail and send them as mail attachments
 ## X-Curse-Project-ID: 344823
+## X-Wago-ID: xZKxl3Kk
 ## OptionalDeps: LibStub
 ## SavedVariables: ItemLocations, LocationItems
 ## SavedVariablesPerCharacter: ContainerSlot
