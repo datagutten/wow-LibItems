@@ -12,7 +12,7 @@ addon.name = ...
 
 ---@type BMUtils
 addon.utils, minor = _G.LibStub('BM-utils-1')
-assert(minor >= 6, ('BMUtils 1.6 or higher is required, found 1.%d'):format(minor))
+assert(minor >= 7, ('BMUtils 1.7 or higher is required, found 1.%d'):format(minor))
 
 ---@type LibInventoryMain
 addon.main = {}
