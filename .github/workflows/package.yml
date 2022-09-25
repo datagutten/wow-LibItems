@@ -89,5 +89,5 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.game_version }}
+          name: LibInventory
           path: .release
