@@ -42,6 +42,9 @@ function events:ADDON_LOADED(addonName)
         self:RegisterEvent('BANKFRAME_CLOSED')
         self:RegisterEvent('PLAYERBANKSLOTS_CHANGED')
 
+        self:RegisterEvent('PLAYER_REGEN_DISABLED')
+        self:RegisterEvent('PLAYER_REGEN_ENABLED')
+
         --if _G['CanUseVoidStorage'] then
         --    self:RegisterEvent('VOID_STORAGE_OPEN')
         --    self:RegisterEvent('VOID_STORAGE_CLOSE')
@@ -144,3 +147,12 @@ end
 function events:VOID_STORAGE_CLOSE()
 
 end]]
+
+function events:PLAYER_REGEN_DISABLED()
+    --Do not scan bags in combat, every hunter ammo usage is a bag update
+    self:UnregisterEvent('BAG_UPDATE')
+end
+
+function events:PLAYER_REGEN_ENABLED()
+    self:RegisterEvent('BAG_UPDATE')
+end
