@@ -46,7 +46,7 @@ jobs:
         run: luacheck addon --no-self
 
       - name: Build the addon
-        uses: BigWigsMods/packager@v1.0.1
+        uses: BigWigsMods/packager@v2.0.11
         with:
           args: -g ${{ matrix.game_version }} -z -d
 
