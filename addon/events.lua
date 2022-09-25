@@ -77,6 +77,9 @@ function events:BAG_UPDATE(bag)
     --@end-debug@
 
     self.addon.container:scanBags()
+    if self.atBank then
+        self.addon.container:scanBank()
+    end
 end
 
 ---Fired when the client's guild info cache has been updated after a call to GuildRoster
