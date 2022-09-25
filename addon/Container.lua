@@ -11,9 +11,7 @@ lib.items = {}
 ---Scan bag content and save to self.location (indexed by itemID) and self.items (indexed by container and slot)
 ---@param container number Container ID
 function lib:getContainerItems(container)
-    --@debug@
-    print('Scan bag', container)
-    --@end-debug@
+    --print('Scan bag', container)
     local slots = _G.GetContainerNumSlots(container)
 
     if _G['ContainerSlot'][container] ~= nil then
@@ -27,8 +25,7 @@ function lib:getContainerItems(container)
         if itemID ~= nil then
             self.addon.main.subTableCheck(self.items, container, slot)
             self.items[container][slot][itemID] = itemCount
-            self.addon.main.subTableCheck(_G['ContainerSlot'], container)
-            self.addon.main.subTableCheck(_G['ContainerSlot'][container], itemID)
+            self.addon.main.subTableCheck(_G['ContainerSlot'], container, itemID)
             table.insert(_G['ContainerSlot'][container][itemID], slot)
         end
     end
@@ -73,6 +70,7 @@ end
 
 --/dump _G['LibInventory-@project-version@'].container:getLocation(6948)
 --/dump _G['LibInventory-@project-version@'].container:getLocation(13444)
+---Get item container slots
 function lib:getLocation(itemID)
     local locations = {}
     for container, items in pairs(_G['ContainerSlot']) do
