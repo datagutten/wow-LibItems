@@ -8,6 +8,8 @@ local major, minor = _G['BMUtils-Version'].parse_version('@project-version@')
 _G['LibInventory'] = addon
 
 addon.version = '@project-version@'
+addon.major = major
+addon.minor = minor
 addon.name = addonName
 
 ---@type BMUtils
