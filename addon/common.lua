@@ -1,14 +1,14 @@
+if _G['LibInventory'] ~= nil then
+    error('There should only be one instance of LibInventory')
+end
+
+local addonName, addon = ...
 local major, minor = _G['BMUtils-Version'].parse_version('@project-version@')
 ---@class LibInventory
-local addon = _G.LibStub:NewLibrary("LibInventory-" .. major, minor)
-if not addon then
-    -- luacov: disable
-    return    -- already loaded and no upgrade necessary
-    -- luacov: enable
-end
-_G['LibInventory-@project-version@'] = addon
+_G['LibInventory'] = addon
+
 addon.version = '@project-version@'
-addon.name = ...
+addon.name = addonName
 
 ---@type BMUtils
 addon.utils, minor = _G.LibStub('BM-utils-1')

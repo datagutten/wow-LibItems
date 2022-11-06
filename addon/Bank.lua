@@ -1,5 +1,5 @@
 ---@type LibInventory
-local addon = _G['LibInventory-@project-version@']
+local _, addon = ...
 
 ---@class LibInventoryBank Manage banks which are not containers
 local lib = addon.bank

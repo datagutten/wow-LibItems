@@ -1,5 +1,5 @@
 ---@type LibInventory
-local addon = _G['LibInventory-@project-version@']
+local _, addon = ...
 ---@class LibInventoryEvents Inventory event handler
 local events = addon.events
 

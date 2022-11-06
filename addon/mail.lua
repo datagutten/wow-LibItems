@@ -1,5 +1,5 @@
 ---@type LibInventory
-local addon = _G['LibInventory-@project-version@']
+local _, addon = ...
 
 ---@class LibInventoryMail Library to send and extract items from mail
 local mail = addon.mail
