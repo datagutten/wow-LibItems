@@ -26,10 +26,10 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Get build utils
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: Beast-Masters-addons/build_utils
           path: tests/build_utils
@@ -76,16 +76,16 @@ jobs:
       WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Get build utils
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: Beast-Masters-addons/build_utils
           path: tests/build_utils
 
       - name: WoW Packager
-        uses: BigWigsMods/packager@v2.0.11
+        uses: BigWigsMods/packager@v2.1.0
 
       - uses: actions/upload-artifact@v3
         with:
