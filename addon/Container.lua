@@ -8,11 +8,18 @@ lib.addon = addon
 ---Container items with slot numbers
 lib.items = {}
 
+local GetContainerNumSlots = _G.GetContainerNumSlots
+local GetContainerItemInfo = _G.GetContainerItemInfo
+if _G.GetContainerNumSlots == nil then
+    GetContainerNumSlots = _G.C_Container.GetContainerNumSlots
+    GetContainerItemInfo = _G.C_Container.GetContainerItemInfo
+end
+
 ---Scan bag content and save to self.location (indexed by itemID) and self.items (indexed by container and slot)
 ---@param container number Container ID
 function lib:getContainerItems(container)
     --print('Scan bag', container)
-    local slots = _G.GetContainerNumSlots(container)
+    local slots = GetContainerNumSlots(container)
 
     if _G['ContainerSlot'][container] ~= nil then
         _G['ContainerSlot'][container] = nil
@@ -21,7 +28,7 @@ function lib:getContainerItems(container)
     self.items[container] = {}
 
     for slot = 1, slots, 1 do
-        local _, itemCount, _, _, _, _, _, _, _, itemID = _G.GetContainerItemInfo(container, slot)
+        local _, itemCount, _, _, _, _, _, _, _, itemID = GetContainerItemInfo(container, slot)
         if itemID ~= nil then
             self.addon.main.subTableCheck(self.items, container, slot)
             self.items[container][slot][itemID] = itemCount
