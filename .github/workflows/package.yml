@@ -62,7 +62,7 @@ jobs:
           GAME_VERSION: ${{ matrix.game_version }}
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
 
   build:
     runs-on: ubuntu-latest
