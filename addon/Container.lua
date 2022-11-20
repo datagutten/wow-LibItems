@@ -7,19 +7,19 @@ lib.addon = addon
 
 ---Container items with slot numbers
 lib.items = {}
+local is_classic = _G.WOW_PROJECT_ID ~= _G.WOW_PROJECT_MAINLINE
 
-local GetContainerNumSlots = _G.GetContainerNumSlots
-local GetContainerItemInfo = _G.GetContainerItemInfo
-if _G.GetContainerNumSlots == nil then
-    GetContainerNumSlots = _G.C_Container.GetContainerNumSlots
-    GetContainerItemInfo = _G.C_Container.GetContainerItemInfo
+local C_Container
+if is_classic then
+    C_Container = addon.utils.container
+else
+    C_Container = _G.C_Container
 end
 
 ---Scan bag content and save to self.location (indexed by itemID) and self.items (indexed by container and slot)
 ---@param container number Container ID
 function lib:getContainerItems(container)
-    --print('Scan bag', container)
-    local slots = GetContainerNumSlots(container)
+    local slots = C_Container.GetContainerNumSlots(container)
 
     if _G['ContainerSlot'][container] ~= nil then
         _G['ContainerSlot'][container] = nil
@@ -28,12 +28,12 @@ function lib:getContainerItems(container)
     self.items[container] = {}
 
     for slot = 1, slots, 1 do
-        local _, itemCount, _, _, _, _, _, _, _, itemID = GetContainerItemInfo(container, slot)
-        if itemID ~= nil then
+        local item = C_Container.GetContainerItemInfo(container, slot)
+        if item ~= nil then
             self.addon.main.subTableCheck(self.items, container, slot)
-            self.items[container][slot][itemID] = itemCount
-            self.addon.main.subTableCheck(_G['ContainerSlot'], container, itemID)
-            table.insert(_G['ContainerSlot'][container][itemID], slot)
+            self.items[container][slot][item['itemID']] = item['stackCount']
+            self.addon.main.subTableCheck(_G['ContainerSlot'], container, item['itemID'])
+            table.insert(_G['ContainerSlot'][container][item['itemID']], slot)
         end
     end
     return self.items[container]
