@@ -29,7 +29,7 @@ function lib:getContainerItems(container)
 
     for slot = 1, slots, 1 do
         local item = C_Container.GetContainerItemInfo(container, slot)
-        if item ~= nil then
+        if item ~= nil and next(item) ~= nil then
             self.addon.main.subTableCheck(self.items, container, slot)
             self.items[container][slot][item['itemID']] = item['stackCount']
             self.addon.main.subTableCheck(_G['ContainerSlot'], container, item['itemID'])
