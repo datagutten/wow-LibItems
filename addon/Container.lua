@@ -10,7 +10,10 @@ lib.items = {}
 local is_classic = _G.WOW_PROJECT_ID ~= _G.WOW_PROJECT_MAINLINE
 
 local C_Container
+local minor
+addon.utils, minor = _G.LibStub('BM-utils-1')
 if is_classic then
+    assert(minor >= 8, ('BMUtils 1.8 or higher is required, found 1.%d'):format(minor))
     C_Container = addon.utils.container
 else
     C_Container = _G.C_Container
