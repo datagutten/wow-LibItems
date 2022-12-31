@@ -1,5 +1,8 @@
 ---@type LibInventory
 local _, addon = ...
+if not addon.equipment then
+    return
+end
 
 ---@class LibInventoryEquipment
 local lib = addon.equipment

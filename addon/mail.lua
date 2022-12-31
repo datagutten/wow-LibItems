@@ -1,5 +1,8 @@
 ---@type LibInventory
 local _, addon = ...
+if not addon.mail then
+    return
+end
 
 ---@class LibInventoryMail Library to send and extract items from mail
 local mail = addon.mail

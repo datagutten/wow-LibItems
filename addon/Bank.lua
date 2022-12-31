@@ -1,5 +1,8 @@
 ---@type LibInventory
 local _, addon = ...
+if not addon.bank then
+    return
+end
 
 ---@class LibInventoryBank Manage banks which are not containers
 local lib = addon.bank

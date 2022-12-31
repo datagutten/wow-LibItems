@@ -1,5 +1,9 @@
 ---@type LibInventory
 local _, addon = ...
+if not addon.events then
+    return
+end
+
 ---@class LibInventoryEvents Inventory event handler
 local events = addon.events
 

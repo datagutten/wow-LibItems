@@ -1,5 +1,9 @@
 ---@type LibInventory
 local _, addon = ...
+if not addon.mailInventory then
+    return
+end
+
 ---@class LibInventoryMailInventory
 local lib = addon.mailInventory
 lib.addon = addon
