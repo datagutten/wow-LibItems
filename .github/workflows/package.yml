@@ -60,6 +60,7 @@ jobs:
         run: |
           lua -lluacov InventoryTest.lua
           lua -lluacov test_character.lua
+          lua -lluacov test_character_methods.lua
         env:
           GAME_VERSION: ${{ matrix.game_version }}
 
