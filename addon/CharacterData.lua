@@ -3,6 +3,7 @@ local _, addon = ...
 
 ---@class CharacterData
 addon.CharacterData = {}
+---@type CharacterData
 local Character = addon.CharacterData
 
 ---Save character information
@@ -14,22 +15,6 @@ function Character:save()
         _G['Characters'][self.realm] = {}
     end
     _G['Characters'][self.realm][self.name] = self.info
-end
-
----Load character info
----@param realm string Realm
----@param name string Character name
----@return CharacterData
-function Character:load(realm, name)
-    if not _G['Characters'][realm] or not _G['Characters'][realm][name] then
-        --error(('Realm %s or character %s is not found'):format(realm, name))
-        return
-    end
-
-    local char = _G['Characters'][realm][name]
-    setmetatable(char, self)
-    self.__index = self
-    return char
 end
 
 ---Get character class color

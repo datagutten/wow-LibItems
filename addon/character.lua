@@ -9,7 +9,8 @@ local lib = addon.characters
 ---@param realm string Realm
 ---@param character string Character name
 function lib.characterInfo(realm, character)
-    assert(_G['Characters'][realm][character], 'No data found for character')
+    assert(_G['Characters'][realm], ('No data found for realm %s'):format(realm))
+    assert(_G['Characters'][realm][character], ('No data found for character'):format(character))
     local char_data = _G['Characters'][realm][character]
     setmetatable(char_data, addon.CharacterData)
     addon.CharacterData.__index = addon.CharacterData
