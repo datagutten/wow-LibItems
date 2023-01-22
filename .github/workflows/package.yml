@@ -58,8 +58,8 @@ jobs:
       - name: Run tests
         working-directory: ./tests
         run: |
-          lua -l luacov InventoryTest.lua
-          lua -l luacov test_character.lua
+          lua -lluacov InventoryTest.lua
+          lua -lluacov test_character.lua
         env:
           GAME_VERSION: ${{ matrix.game_version }}
 
