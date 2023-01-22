@@ -8,7 +8,7 @@
 ## X-Curse-Project-ID: 344823
 ## X-Wago-ID: xZKxl3Kk
 ## OptionalDeps: LibStub
-## SavedVariables: ItemLocations, LocationItems
+## SavedVariables: ItemLocations, LocationItems, Characters
 ## SavedVariablesPerCharacter: ContainerSlot
 
 #@no-lib-strip@
