@@ -10,13 +10,9 @@ lib.addon = addon
 
 ---Container items with slot numbers
 lib.items = {}
-local is_classic = _G.WOW_PROJECT_ID ~= _G.WOW_PROJECT_MAINLINE
 
 local C_Container
-local minor
-addon.utils, minor = _G.LibStub('BM-utils-1')
-if is_classic then
-    assert(minor >= 8, ('BMUtils 1.8 or higher is required, found 1.%d'):format(minor))
+if _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC then
     C_Container = addon.utils.container
 else
     C_Container = _G.C_Container
@@ -24,19 +20,28 @@ end
 
 ---Scan bag content and save to self.location (indexed by itemID) and self.items (indexed by container and slot)
 ---@param container number Container ID
+---/dump LibInventory.container:getContainerItems(1)
 function lib:getContainerItems(container)
     local slots = C_Container.GetContainerNumSlots(container)
-
-    if _G['ContainerSlot'][container] ~= nil then
-        _G['ContainerSlot'][container] = nil
-    end
 
     self.items[container] = {}
 
     for slot = 1, slots, 1 do
         local item = C_Container.GetContainerItemInfo(container, slot)
         if item ~= nil and next(item) ~= nil then
-            self.addon.main.subTableCheck(self.items, container, slot)
+            if item['stackCount'] == nil then
+                --@debug@
+                print('No count', item['link'])
+                --@end-debug@
+                item['stackCount'] = 1
+            end
+            if item['itemID'] == nil then
+                --@debug@
+                print(('Item in container %d slot %d has no itemID'):format(container, slots))
+                --@end-debug@
+                item['itemID'] = addon.utils.itemIdFromLink(item['hyperlink'])
+            end
+            self.addon.main.subTableCheck(self.items, container, slot, item['itemID'])
             self.items[container][slot][item['itemID']] = item['stackCount']
             self.addon.main.subTableCheck(_G['ContainerSlot'], container, item['itemID'])
             table.insert(_G['ContainerSlot'][container][item['itemID']], slot)
