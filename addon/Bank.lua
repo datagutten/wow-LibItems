@@ -18,7 +18,7 @@ function lib:scanGuildBank()
             local _, itemCount = _G.GetGuildBankItemInfo(tab, i);
             if itemCount > 0 then
                 local link = _G.GetGuildBankItemLink(tab, i)
-                local itemID = self.addon.utils:ItemIdFromLink(link)
+                local itemID = self.addon.utils.itemIdFromLink(link)
                 assert(itemID, ('Unable to get item id for slot %d'):format(i))
                 self.addon.main:saveItemLocation(itemID, 'guildBank', itemCount, guildName)
             end
