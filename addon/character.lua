@@ -2,8 +2,8 @@
 local _, addon = ...
 
 ---@class LibInventoryCharacter
-addon.character = {}
-local lib = addon.character
+addon.characters = {}
+local lib = addon.characters
 
 ---Get information about the specified character
 ---@param realm string Realm

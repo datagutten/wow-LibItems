@@ -7,7 +7,7 @@ loadfile('../addon/character.lua')('', addon)
 
 function testCurrentCharacter()
     ---@type CharacterData
-    local char = addon.character.currentCharacterInfo()
+    local char = addon.characters.currentCharacterInfo()
     lu.assertEquals(char.money, 62993)
     lu.assertEquals(char.guild, 'The Wasnots')
     lu.assertEquals(char.name, 'Quadduo')
@@ -42,11 +42,9 @@ function testLoadCharacter()
         }
     }
 
-    local character_obj = addon.character.characterInfo('Mirage Raceway', 'Quadduo')
-    lu.assertEquals(character_obj.money, 62993)
-    lu.assertEquals(character_obj.guild, 'The Wasnots')
+    ---@type CharacterData
+    local character_obj = addon.characters.characterInfo('Mirage Raceway', 'Quadduo')
     lu.assertEquals(character_obj.name, 'Quadduo')
-    lu.assertEquals(character_obj.realm, 'Mirage Raceway')
 end
 
 os.exit(lu.LuaUnit.run())

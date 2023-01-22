@@ -21,7 +21,7 @@ print(('LibInventory %s loaded with BMUtils 2.%s'):format(addon.version, minor))
 ---@type LibInventoryMain
 addon.main = {}
 ---@type LibInventoryCharacter
-addon.character = {}
+addon.characters = {}
 ---@type LibInventoryContainer
 addon.container = {}
 
