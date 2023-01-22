@@ -14,12 +14,13 @@ function testCurrentCharacter()
     lu.assertEquals(char.realm, 'Mirage Raceway')
 end
 
---[[function testSaveCharacter()
-    lu.assertNil(_G['Characters'])
-    local char = addon.character:current()
+---Check if character data is saved to the global variable
+function testSaveCharacter()
+    _G['Characters'] = nil
+    local char = addon.characters.currentCharacterInfo()
     char:save()
-    lu.assertNotNil(_G['Characters']['Mirage Raceway'])
-end]]
+    lu.assertNotNil(_G['Characters']['Mirage Raceway']['Quadduo'])
+end
 
 function testLoadCharacter()
     _G['Characters'] = {
