@@ -48,7 +48,7 @@ end
 ---@param slot number Slot inside the bag (top left slot is 1, slot to the right of it is 2)
 ---@param key number The index of the item (1-ATTACHMENTS_MAX_SEND(12))
 function mail:AddAttachment(bag, slot, key)
-    --self.addon.utils.basic.sprintf('Attach item from container %d slot %d to %d', bag, slot, key or self.attachment_key)
+    --addon.utils.basic.printf('Attach item from container %d slot %d to %d', bag, slot, key or self.attachment_key)
     -- https://wow.gamepedia.com/API_PickupContainerItem
     _G.PickupContainerItem(bag, slot)
     _G.ClickSendMailItemButton(key or self.attachment_key)
