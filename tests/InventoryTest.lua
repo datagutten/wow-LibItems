@@ -1,5 +1,11 @@
 loadfile('build_utils/wow_api/frame.lua')()
+loadfile('build_utils/wow_api/constants.lua')()
 loadfile('build_utils/wow_api/functions.lua')()
+if _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC then
+    loadfile('build_utils/wow_api/container_classic.lua')()
+else
+    loadfile('build_utils/wow_api/container.lua')()
+end
 loadfile('build_utils/utils/load_toc.lua')('../LibInventory.toc')
 ---@type LibInventory
 local addon = _G['LibInventory']
