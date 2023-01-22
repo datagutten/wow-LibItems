@@ -6,6 +6,7 @@ end
 
 ---@class LibInventoryEvents Inventory event handler
 local events = addon.events
+local is_classic_era = _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC
 
 local frame = _G.CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
@@ -95,9 +96,10 @@ end
 ---or after any data change in any of the guild's data, excluding the Guild Information window.
 ---https://wow.gamepedia.com/GUILD_ROSTER_UPDATE
 function events:GUILD_ROSTER_UPDATE()
-    if self.addon.utils:IsWoWClassic(false) then
-        return
+    if is_classic_era then
+        return --Classic era has no guild bank
     end
+    --TODO: Clear guild bank cache?
 end
 
 function events:BANKFRAME_OPENED()
