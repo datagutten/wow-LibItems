@@ -15,7 +15,7 @@ mail.items = {}
 ---Set mail recipient
 ---@param recipient string Mail recipient
 function mail:recipient(recipient)
-    local character, realm = self.addon.utils:SplitCharacterString(recipient)
+    local character, realm = addon.utils.character.splitCharacterString(recipient)
     if realm == _G.GetRealmName() then
         recipient = character
     end
@@ -48,7 +48,7 @@ end
 ---@param slot number Slot inside the bag (top left slot is 1, slot to the right of it is 2)
 ---@param key number The index of the item (1-ATTACHMENTS_MAX_SEND(12))
 function mail:AddAttachment(bag, slot, key)
-    self.addon.utils:sprintf('Attach item from container %d slot %d to %d', bag, slot, key or self.attachment_key)
+    --self.addon.utils.basic.sprintf('Attach item from container %d slot %d to %d', bag, slot, key or self.attachment_key)
     -- https://wow.gamepedia.com/API_PickupContainerItem
     _G.PickupContainerItem(bag, slot)
     _G.ClickSendMailItemButton(key or self.attachment_key)
@@ -88,7 +88,7 @@ end
 
 --/dump LibInventoryMail:GetItem(1081, "Quadduo")
 function mail:GetItem(itemID, character)
-    character = self.utils:GetCharacterString(character)
+    character = addon.utils.character.getCharacterString(character)
     if _G.MailItems[character][itemID] ~= nil and _G.MailItems[character][itemID] > 0 then
         return _G.MailItems[character][itemID]
     end
@@ -100,7 +100,7 @@ function mail:attachments(attachments, positions)
         position = positions[itemID]
         if position then
             --@debug@
-            self.utils:printf('Attach itemID %s as attachment %d from container %d slot %d',
+            addon.utils.basic.printf('Attach itemID %s as attachment %d from container %d slot %d',
                     itemID, key, position["bag"], position["slot"])
             --@end-debug@
             _G.PickupContainerItem(position["bag"], position["slot"])

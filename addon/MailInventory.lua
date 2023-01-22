@@ -12,7 +12,7 @@ function lib:scanMail()
     self.addon.main:clearLocation('mail')
     local mails = self.addon.mail:NumMails()
     --@debug@
-    self.addon.utils:printf('Scan %d mail(s)', mails)
+    self.addon.utils.basic.printf('Scan %d mail(s)', mails)
     --@end-debug@
     local items
     if mails == 0 then

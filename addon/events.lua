@@ -15,12 +15,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
     end
     events[event](self, ...)
 end)
+
+---@type LibInventory
 frame.addon = addon
 
 function events:ADDON_LOADED(addonName)
     if addonName == self.addon.name then
         --@debug@
-        self.addon.utils:printf("%s loaded with debug output", self.addon.name)
+        addon.utils.basic.printf("%s loaded with debug output", self.addon.name)
         --@end-debug@
 
         ---Item locations indexed by location
@@ -71,7 +73,7 @@ end
 ---https://wow.gamepedia.com/MAIL_INBOX_UPDATE
 function events:MAIL_INBOX_UPDATE()
     --@debug@
-    self.addon.utils:printf('Mail inbox updated')
+    addon.utils.basic.printf('Mail inbox updated')
     --@end-debug@
     self.addon.mailInventory:scanMail()
 end
@@ -80,7 +82,7 @@ end
 ---https://wow.gamepedia.com/BAG_UPDATE
 function events:BAG_UPDATE(bag)
     --@debug@
-    self.addon.utils:printf('Bag %d updated, scan all bags', bag)
+    addon.utils.basic.printf('Bag %d updated, scan all bags', bag)
     --@end-debug@
 
     self.addon.container:scanBags()
@@ -111,14 +113,14 @@ end
 
 function events:PLAYERBANKSLOTS_CHANGED(slot)
     --@debug@
-    self.addon.utils:sprintf('Bank slot %d changed', slot)
+    addon.utils.basic.printf('Bank slot %d changed', slot)
     --@end-debug@
     self.addon.container:scanBank()
 end
 
 function events:PLAYERREAGENTBANKSLOTS_CHANGED(slot)
     --@debug@
-    self.addon.utils:sprintf('Reagent Bank slot %d changed', slot)
+    addon.utils.basic.printf('Reagent Bank slot %d changed', slot)
     --@end-debug@
     self.addon.container:scanBank()
 end
@@ -133,7 +135,7 @@ end
 
 function events:GUILDBANKBAGSLOTS_CHANGED(slot)
     --@debug@
-    self.addon.utils:sprintf('Guild Bank slot %d changed', slot)
+    addon.utils.basic.printf('Guild Bank slot %d changed', slot)
     --@end-debug@
     self.addon.bank:scanGuildBank()
 end

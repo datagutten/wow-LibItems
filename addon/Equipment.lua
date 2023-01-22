@@ -5,7 +5,8 @@ if not addon.equipment then
 end
 
 ---@class LibInventoryEquipment
-local lib = addon.equipment
+local lib = {}
+addon.equipment = lib
 lib.addon = addon
 
 function lib:scanEquipment()
@@ -15,7 +16,7 @@ function lib:scanEquipment()
     for slot = 0, 19 do
         link = _G.GetInventoryItemLink("player", slot)
         if link ~= nil then
-            itemID = self.addon.utils:ItemIdFromLink(link)
+            itemID = self.addon.utils.itemIdFromLink(link)
             self.addon.main:saveItemLocation(itemID, 'equipment', 1)
         end
     end
