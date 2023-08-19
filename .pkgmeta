@@ -3,6 +3,8 @@ externals:
   libs/LibStub:
     url: https://repos.wowace.com/wow/libstub/trunk
     tag: latest
+  libs/Ace3:
+    url: https://repos.wowace.com/wow/ace3/trunk
   libs/BM-utils:
     url: https://github.com/Beast-Masters-addons/BM-utils.git
     tag: v2.0-alpha2

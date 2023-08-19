@@ -12,7 +12,6 @@
 ## SavedVariablesPerCharacter: ContainerSlot
 
 #@no-lib-strip@
-libs\LibStub\LibStub.lua
-libs\BM-utils\lib.xml
+dependencies.xml
 #@end-no-lib-strip@
 lib.xml
