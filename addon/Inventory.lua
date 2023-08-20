@@ -8,11 +8,6 @@ local lib = _G['LibInventoryAce']:NewModule("LibInventoryLocations")
 local utils = _G.LibStub('BM-utils-2')
 local empty = utils.basic.empty
 
----Item locations indexed by location (saved variable ItemLocations)
-lib.locations = {}
----Item locations indexed by item ID (saved variable LocationItems)
-lib.items = {}
-
 lib.location_names = {
     guildBank = _G.GUILD_BANK,
     bank = _G.BANK,

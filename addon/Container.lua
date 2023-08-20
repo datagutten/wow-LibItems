@@ -5,8 +5,6 @@ local inventory = _G['LibInventoryAce']:GetModule('LibInventoryLocations')
 
 ---@type BMUtils
 local utils = _G.LibStub('BM-utils-2')
----Container items with slot numbers
-lib.items = {}
 
 ---@type C_Container
 local C_Container
