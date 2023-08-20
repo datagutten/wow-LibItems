@@ -19,6 +19,10 @@ function lib:OnEnable()
     self:RegisterEvent('BANKFRAME_OPENED')
     self:RegisterEvent('BANKFRAME_CLOSED')
     self:RegisterEvent('PLAYERBANKSLOTS_CHANGED')
+    if _G['REAGENTBANK_CONTAINER'] ~= nil then
+        self:RegisterEvent('PLAYERREAGENTBANKSLOTS_CHANGED')
+    end
+
     --Bag scanning
     self:RegisterEvent('BAG_UPDATE')
     self:RegisterEvent('PLAYER_REGEN_DISABLED')

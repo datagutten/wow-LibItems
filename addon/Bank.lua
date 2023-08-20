@@ -18,10 +18,6 @@ function lib:OnEnable()
         self:RegisterEvent('GUILDBANKBAGSLOTS_CHANGED')
     end
 
-    if _G['REAGENTBANK_CONTAINER'] ~= nil then
-        self:RegisterEvent('PLAYERREAGENTBANKSLOTS_CHANGED')
-    end
-
     --if _G['CanUseVoidStorage'] then
     --    self:RegisterEvent('VOID_STORAGE_OPEN')
     --    self:RegisterEvent('VOID_STORAGE_CLOSE')
