@@ -1,12 +1,8 @@
----@type LibInventory
-local _, addon = ...
-if not addon.mail then
-    return
-end
-
 ---@class LibInventoryMail Library to send and extract items from mail
-local mail = addon.mail
-mail.addon = addon
+local mail = _G['LibInventoryAce']:NewModule('LibInventoryMail', 'AceEvent-3.0')
+
+---@type BMUtils
+local utils = _G.LibStub('BM-utils-2')
 
 mail.mail_open = false
 mail.attachment_key = 0
@@ -15,7 +11,7 @@ mail.items = {}
 ---Set mail recipient
 ---@param recipient string Mail recipient
 function mail:recipient(recipient)
-    local character, realm = addon.utils.character.splitCharacterString(recipient)
+    local character, realm = utils.character.splitCharacterString(recipient)
     if realm == _G.GetRealmName() then
         recipient = character
     end
@@ -48,7 +44,7 @@ end
 ---@param slot number Slot inside the bag (top left slot is 1, slot to the right of it is 2)
 ---@param key number The index of the item (1-ATTACHMENTS_MAX_SEND(12))
 function mail:AddAttachment(bag, slot, key)
-    --addon.utils.basic.printf('Attach item from container %d slot %d to %d', bag, slot, key or self.attachment_key)
+    --utils.basic.printf('Attach item from container %d slot %d to %d', bag, slot, key or self.attachment_key)
     -- https://wow.gamepedia.com/API_PickupContainerItem
     _G.PickupContainerItem(bag, slot)
     _G.ClickSendMailItemButton(key or self.attachment_key)
@@ -88,7 +84,7 @@ end
 
 --/dump LibInventoryMail:GetItem(1081, "Quadduo")
 function mail:GetItem(itemID, character)
-    character = addon.utils.character.getCharacterString(character)
+    character = utils.character.getCharacterString(character)
     if _G.MailItems[character][itemID] ~= nil and _G.MailItems[character][itemID] > 0 then
         return _G.MailItems[character][itemID]
     end
@@ -100,7 +96,7 @@ function mail:attachments(attachments, positions)
         position = positions[itemID]
         if position then
             --@debug@
-            addon.utils.basic.printf('Attach itemID %s as attachment %d from container %d slot %d',
+            utils.basic.printf('Attach itemID %s as attachment %d from container %d slot %d',
                     itemID, key, position["bag"], position["slot"])
             --@end-debug@
             _G.PickupContainerItem(position["bag"], position["slot"])
@@ -109,24 +105,24 @@ function mail:attachments(attachments, positions)
     end
 end
 
---Initialize events
-local frame = _G.CreateFrame("FRAME");
-frame:RegisterEvent("ADDON_LOADED");
-
-function mail:eventHandler(event, arg1)
+--Event handling
+function mail:OnEnable()
     -- https://wowwiki.fandom.com/wiki/Events/Mail
-    if event == "ADDON_LOADED" and arg1 == addon.name then
-        frame:RegisterEvent("MAIL_SEND_SUCCESS")
-        frame:RegisterEvent("MAIL_SHOW")
-        frame:RegisterEvent("MAIL_FAILED")
-        frame:RegisterEvent("MAIL_CLOSED")
-    elseif event == "MAIL_SHOW" then
-        self.mail_open = true
-    elseif event == "MAIL_CLOSED" then
-        self.mail_open = false
-        _G.ClearCursor()
-    elseif event == "MAIL_SEND_SUCCESS" then
-        self.attachment_key = 0
-    end
+    self:RegisterEvent("MAIL_SEND_SUCCESS")
+    self:RegisterEvent("MAIL_SHOW")
+    self:RegisterEvent("MAIL_FAILED")
+    self:RegisterEvent("MAIL_CLOSED")
 end
-frame:SetScript("OnEvent", mail.eventHandler);
+
+function mail:MAIL_SHOW()
+    self.mail_open = true
+end
+
+function mail:MAIL_CLOSED()
+    self.mail_open = false
+    _G.ClearCursor()
+end
+
+function mail:MAIL_SEND_SUCCESS()
+    self.attachment_key = 0
+end

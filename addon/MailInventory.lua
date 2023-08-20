@@ -1,18 +1,33 @@
----@type LibInventory
-local _, addon = ...
-if not addon.mailInventory then
-    return
-end
+---@type LibInventoryAce
+local addon = _G['LibInventoryAce']
 
 ---@class LibInventoryMailInventory
-local lib = addon.mailInventory
-lib.addon = addon
+local lib = addon:NewModule("LibInventoryMailInventory", "AceEvent-3.0")
+
+---@type LibInventoryMail
+local mail = addon:GetModule('LibInventoryMail')
+
+---@type LibInventoryLocations
+local inventory = addon:GetModule('LibInventoryLocations')
+
+function lib:OnEnable()
+    self:RegisterEvent('MAIL_INBOX_UPDATE')
+end
+
+---This event is fired when the inbox changes in any way.
+---https://wow.gamepedia.com/MAIL_INBOX_UPDATE
+function lib:MAIL_INBOX_UPDATE()
+    --@debug@
+    print('Mail inbox updated')
+    --@end-debug@
+    self:scanMail()
+end
 
 function lib:scanMail()
     self.addon.main:clearLocation('mail')
     local mails = self.addon.mail:NumMails()
     --@debug@
-    self.addon.utils.basic.printf('Scan %d mail(s)', mails)
+    print(('Scan %d mail(s)'):format(mails))
     --@end-debug@
     local items
     if mails == 0 then
@@ -20,7 +35,7 @@ function lib:scanMail()
     end
     local mailItemCount = {}
     for mailIndex = 1, mails do
-        items = self.addon.mail:GetMailItems(mailIndex)
+        items = mail:GetMailItems(mailIndex)
         for _, item in ipairs(items) do
             if mailItemCount[item["itemID"]] == nil then
                 mailItemCount[item["itemID"]] = item["itemCount"]
@@ -30,6 +45,6 @@ function lib:scanMail()
         end
     end
     for itemID, itemCount in pairs(mailItemCount) do
-        self.addon.main:saveItemLocation(itemID, 'mail', itemCount)
+        inventory:saveItemLocation(itemID, 'mail', itemCount)
     end
 end
