@@ -5,7 +5,7 @@ local addon = _G['LibInventoryAce']
 local lib = _G['LibInventoryAce']:NewModule("LibInventoryCurrency", "AceEvent-3.0")
 
 function lib:OnInitialize()
-    self.db = addon.db:RegisterNamespace("LibInventoryCurrencyDB")
+    self.db = addon.db:RegisterNamespace("Currency")
 end
 
 function lib:OnEnable()
