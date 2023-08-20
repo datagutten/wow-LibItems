@@ -11,7 +11,7 @@ else
     loadfile('build_utils/wow_api/container.lua')()
 end
 loadfile('build_utils/utils/load_toc.lua')('../LibInventory.toc')
----@type LibInventory
+---@type LibInventoryAce
 local addon = _G.LibStub("AceAddon-3.0"):GetAddon("LibInventoryAce")
 addon:OnInitialize()
 
@@ -39,8 +39,8 @@ _G['Characters'] = {
     }
 }
 
----@type CharacterData
-local character_obj = module:characterInfo('Mirage Raceway', 'Quadduo')
+---@type LibInventoryCharacterObject
+local character_obj = module:load('Mirage Raceway', 'Quadduo')
 
 function testCharacterProperties()
     lu.assertEquals(character_obj.money, 62993)

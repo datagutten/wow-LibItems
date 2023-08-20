@@ -13,7 +13,7 @@ addon:OnInitialize()
 local module = addon:GetModule("LibInventoryCharacter")
 
 function testCurrentCharacter()
-    local char = module.currentCharacterInfo()
+    local char = module.current()
     lu.assertEquals(char.money, 62993)
     lu.assertEquals(char.guild, 'The Wasnots')
     lu.assertEquals(char.name, 'Quadduo')
@@ -65,7 +65,7 @@ function testLoadCharacter()
     module:OnInitialize()
 
     ---@type LibInventoryCharacterObject
-    local character_obj = module:characterInfo('Mirage Raceway', 'Quadduo')
+    local character_obj = module:load('Mirage Raceway', 'Quadduo')
     lu.assertEquals(character_obj.name, 'Quadduo')
 end
 
