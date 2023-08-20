@@ -17,6 +17,10 @@ function lib:OnInitialize()
     self.db = addon.db:RegisterNamespace('Character', {})
 end
 
+function lib:OnEnable()
+    self:save()
+end
+
 ---Save information about the current character
 function lib:save()
     local character = _G.UnitName("player")
