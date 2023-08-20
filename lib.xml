@@ -10,4 +10,5 @@
     <Script file="addon\MailInventory.lua"/>
     <Script file="addon\Bank.lua"/>
     <Script file="addon\Equipment.lua"/>
+    <Script file="addon\slash.lua"/>
 </Ui>
