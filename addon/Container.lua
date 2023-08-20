@@ -10,7 +10,7 @@ lib.items = {}
 
 ---@type C_Container
 local C_Container
-if _G.C_Container.GetContainerNumSlots == nil then
+if _G.C_Container == nil or _G.C_Container.GetContainerNumSlots == nil then
     C_Container = utils.container
 else
     C_Container = _G.C_Container
