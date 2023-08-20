@@ -8,6 +8,8 @@ externals:
   libs/BM-utils:
     url: https://github.com/Beast-Masters-addons/BM-utils.git
     tag: v2.0-alpha2
+  libs/LibProfessions:
+    url: https://github.com/datagutten/wow-LibProfessions.git
 
 ignore:
   - libs/LibStub/tests
