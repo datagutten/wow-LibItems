@@ -129,16 +129,20 @@ end
 function lib:cleanItems()
 
     for itemID, characters in pairs(self.db.factionrealm) do
-        for character_iter, locations in pairs(characters) do
+        for character_iter, _ in pairs(characters) do
             --[[            for location_iter, _ in pairs(locations) do
                         end]]
             if utils.basic.empty(self.db.factionrealm[itemID][character_iter]) then
+                --@debug@
                 print(('Item %d has no locations for character %s, remove from table'):format(itemID, character_iter))
+                --@end-debug@
                 self.db.factionrealm[itemID][character_iter] = nil
             end
         end
         if utils.basic.empty(self.db.factionrealm[itemID]) then
+            --@debug@
             print(('No characters has item %d, remove it from table'):format(itemID))
+            --@end-debug@
             self.db.factionrealm[itemID] = nil
         end
     end
