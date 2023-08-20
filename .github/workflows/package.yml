@@ -63,6 +63,7 @@ jobs:
           lua -lluacov InventoryTest.lua
           lua -lluacov EquipmentTest.lua
           lua -lluacov ContainerTest.lua
+          lua -lluacov CurrencyTest.lua
           lua -lluacov test_character.lua
           lua -lluacov test_character_methods.lua
         env:
