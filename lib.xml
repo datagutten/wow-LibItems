@@ -3,11 +3,11 @@
     <Script file="addon\core.lua"/>
     <Script file="addon\CharacterObject.lua"/>
     <Script file="addon\character.lua"/>
+    <Script file="addon\currency.lua"/>
     <Script file="addon\Inventory.lua"/>
     <Script file="addon\Container.lua"/>
     <Script file="addon\mail.lua"/>
     <Script file="addon\MailInventory.lua"/>
     <Script file="addon\Bank.lua"/>
     <Script file="addon\Equipment.lua"/>
-    <Script file="addon\events.lua"/>
 </Ui>
