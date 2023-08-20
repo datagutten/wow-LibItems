@@ -70,8 +70,8 @@ end
 ---Get all items in the given location
 ---TODO: Broken
 function lib:getLocationItems(location, character, realm)
-    error('Broken, need rewrite')
     if character then
+        error('Broken, need rewrite')
         character = utils.character.getCharacterString(character, realm)
         if not self.db.char[location] then
             --@debug@
@@ -79,10 +79,9 @@ function lib:getLocationItems(location, character, realm)
             --@end-debug@
             return
         end
-
         return self.db.char[location]
     else
-        return self.db.char
+        return self.db.char[location]
     end
 end
 
