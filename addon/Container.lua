@@ -27,11 +27,11 @@ end
 
 function lib:BANKFRAME_OPENED()
     self.atBank = true
+    self:scanBank()
 end
 
 function lib:BANKFRAME_CLOSED()
     if self.atBank then
-        --self:scanBank()
         self.atBank = false
     end
 end
