@@ -1,12 +1,12 @@
----@type LibInventory
-local _, addon = ...
-if not addon.main then
-    return
-end
+---@type LibInventoryAce
+local addon = _G['LibInventoryAce']
 
----@class LibInventoryMain
-local lib = addon.main
-lib.addon = addon
+---@class LibInventoryLocations
+local lib = _G['LibInventoryAce']:NewModule("LibInventoryLocations")
+
+---@type BMUtils
+local utils = _G.LibStub('BM-utils-2')
+local empty = utils.basic.empty
 
 ---Item locations indexed by location (saved variable ItemLocations)
 lib.locations = {}
@@ -22,6 +22,17 @@ lib.location_names = {
     mail = _G.MAIL_LABEL,
 }
 
+function lib:OnInitialize()
+    self.db = addon.db:RegisterNamespace("Items", {
+        char = {
+            bags = {},
+            bank = {},
+            mail = {},
+            equipment = {},
+        }
+    })
+end
+
 function lib.subTableCheck(tableData, ...)
     --https://stackoverflow.com/questions/7183998/in-lua-what-is-the-right-way-to-handle-varargs-which-contains-nil
     for _, value in ipairs { ... } do
@@ -36,43 +47,43 @@ function lib:saveItemLocation(itemID, location, quantity, character, realm)
     assert(itemID, 'itemID is nil')
     ---Get character string, arguments are optional and falls back to current character and realm if not set
     character = addon.utils.character.getCharacterString(character, realm)
+    assert(self.db.char[location], ('Invalid location: %s'):format(location))
 
-    self.subTableCheck(self.locations, character, location, itemID)
-    self.locations[character][location][itemID] = quantity
+    self.subTableCheck(self.db.char, location, itemID)
+    self.db.char[location][itemID] = quantity
 
-    self.subTableCheck(self.items, itemID, character, location)
-    self.items[itemID][character][location] = quantity
-
+    self.subTableCheck(self.db.factionrealm, itemID, character, location)
+    self.db.factionrealm[itemID][character][location] = quantity
 end
 
---/dump _G['LibInventory-@project-version@'].main:getItemLocation(7070, 'Luckydime', 'Mirage Raceway')
+--/dump _G['LibInventory'].main:getItemLocation(6948, 'Luckydime', 'Mirage Raceway')
 ---Get item count and which container it is located in
 function lib:getItemLocation(itemID, character, realm)
-    if not self.items[itemID] then
+    if not self.db.factionrealm[itemID] then
         return {}
     end
 
     if character then
         character = addon.utils.character.getCharacterString(character, realm)
-        return self.items[itemID][character] or {}
+        return self.db.factionrealm[itemID][character] or {}
     else
-        return self.items[itemID] or {}
+        return self.db.factionrealm[itemID] or {}
     end
 end
 
 function lib:getLocationItems(location, character, realm)
     if character then
         character = addon.utils.character.getCharacterString(character, realm)
-        if not self.locations[character] or not self.locations[character][location] then
+        if not self.db.char[character] or not self.db.char[character][location] then
             --@debug@
-            self.addon.utils.basic.printf('No data for location %s on character %s', location, character)
+            print(('No data for location %s on character %s'):format(location, character))
             --@end-debug@
             return
         end
 
-        return self.locations[character][location]
+        return self.db.char[character][location]
     else
-        return self.locations
+        return self.db.char
     end
 end
 
@@ -80,15 +91,19 @@ end
 ---/run LibInventoryItems.main:clearLocation('Bags')
 function lib:clearLocation(location, character, realm)
     character = addon.utils.character.getCharacterString(character, realm)
-    if self.locations[character] == nil then
-        self.locations[character] = {}
+    if self.db.char[character] == nil then
+        self.db.char[character] = {}
     end
-    self.locations[character][location] = {}
-    for itemID, characters in pairs(self.items) do
+    self.db.char[character][location] = {}
+    for itemID, characters in pairs(self.db.factionrealm) do
         for character_iter, locations in pairs(characters) do
             for location_iter, _ in pairs(locations) do
                 if location_iter == location and character_iter == character then
-                    self.items[itemID][character_iter][location_iter] = nil
+                    self.db.factionrealm[itemID][character_iter][location_iter] = nil
+
+                    if empty(self.db.factionrealm[itemID][character_iter]) then
+                        self.db.factionrealm[itemID][character_iter] = nil
+                    end
                 end
             end
         end
@@ -97,13 +112,34 @@ end
 
 ---Clear all location for the given item
 function lib:clearItem(itemID, character, realm)
-    character = self.addon.utils.getCharacterString(character, realm)
-    self.items[itemID] = nil
-    for character_iter, locations in pairs(self.locations) do
+    character = utils.getCharacterString(character, realm)
+    self.db.factionrealm[itemID] = nil
+    for character_iter, locations in pairs(self.db.char) do
         for location_iter, item_iter in pairs(locations) do
             if item_iter == itemID and character_iter == character then
-                self.locations[character_iter][location_iter] = nil
+                self.db.char[character_iter][location_iter] = nil
             end
+        end
+    end
+end
+
+
+--/run _G['LibInventory-@project-version@'].main:cleanItems()
+--/dump LocationItems[2592]['Quadduo-MirageRaceway']
+function lib:cleanItems()
+
+    for itemID, characters in pairs(self.db.factionrealm) do
+        for character_iter, locations in pairs(characters) do
+            --[[            for location_iter, _ in pairs(locations) do
+                        end]]
+            if utils.basic.empty(self.db.factionrealm[itemID][character_iter]) then
+                print(('Item %d has no locations for character %s, remove from table'):format(itemID, character_iter))
+                self.db.factionrealm[itemID][character_iter] = nil
+            end
+        end
+        if utils.basic.empty(self.db.factionrealm[itemID]) then
+            print(('No characters has item %d, remove it from table'):format(itemID))
+            self.db.factionrealm[itemID] = nil
         end
     end
 end
