@@ -40,7 +40,7 @@ _G['Characters'] = {
 }
 
 ---@type LibInventoryCharacterObject
-local character_obj = module:load('Mirage Raceway', 'Quadduo')
+local character_obj = module:current('Mirage Raceway', 'Quadduo')
 
 function testCharacterProperties()
     lu.assertEquals(character_obj.money, 62993)
