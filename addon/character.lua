@@ -27,7 +27,7 @@ end
 ---@param realm string Realm
 ---@param character string Character name
 ---@return LibInventoryCharacterObject
-function lib:characterInfo(realm, character)
+function lib:load(realm, character)
     if realm ~= _G.GetRealmName() then
         utils.text.error(('Requested realm %s is not current'):format(realm))
         return
@@ -43,7 +43,7 @@ end
 
 ---Get a CharacterData object with information about the current character
 ---@return LibInventoryCharacterObject
-function lib.currentCharacterInfo()
+function lib.current()
     return CharacterObject.construct(lib.currentCharacterData())
 end
 
