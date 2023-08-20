@@ -110,7 +110,6 @@ function mail:OnEnable()
     -- https://wowwiki.fandom.com/wiki/Events/Mail
     self:RegisterEvent("MAIL_SEND_SUCCESS")
     self:RegisterEvent("MAIL_SHOW")
-    self:RegisterEvent("MAIL_FAILED")
     self:RegisterEvent("MAIL_CLOSED")
 end
 
