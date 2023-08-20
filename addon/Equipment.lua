@@ -22,7 +22,7 @@ function lib:scanEquipment()
         link = _G.GetInventoryItemLink('player', slot)
         if link ~= nil then
             itemID = utils.itemIdFromLink(link)
-            inventory:saveItemLocation(itemID, 'equipment ', 1)
+            inventory:saveItemLocation(itemID, 'equipment', 1)
         end
     end
 end

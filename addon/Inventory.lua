@@ -15,6 +15,7 @@ lib.location_names = {
     bags = _G.BAGSLOT,
     voidStorage = _G.VOID_STORAGE,
     mail = _G.MAIL_LABEL,
+    equipment = _G.STAT_AVERAGE_ITEM_LEVEL_EQUIPPED:sub(2, -5)
 }
 
 function lib:OnInitialize()
@@ -42,7 +43,7 @@ function lib:saveItemLocation(itemID, location, quantity, character, realm)
     assert(itemID, 'itemID is nil')
     ---Get character string, arguments are optional and falls back to current character and realm if not set
     character = utils.character.getCharacterString(character, realm)
-    assert(self.db.char[location], ('Invalid location: %s'):format(location))
+    assert(self.location_names[location], ('Invalid location: %s'):format(location))
 
     self.subTableCheck(self.db.char, location, itemID)
     self.db.char[location][itemID] = quantity
