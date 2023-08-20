@@ -1,0 +1,6 @@
+build_utils/wow_api/frame.lua
+build_utils/wow_api/constants.lua
+build_utils/wow_api/functions.lua
+build_utils/wow_api/container.lua
+../dependencies.xml
+../lib.xml
