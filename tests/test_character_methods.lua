@@ -12,7 +12,12 @@ else
 end
 loadfile('build_utils/utils/load_toc.lua')('../LibInventory.toc')
 ---@type LibInventory
-local addon = _G['AddonTable']
+local addon = _G.LibStub("AceAddon-3.0"):GetAddon("LibInventoryAce")
+addon:OnInitialize()
+
+---@type LibInventoryCharacter
+local module = addon:GetModule("LibInventoryCharacter")
+module:OnInitialize()
 
 _G['Characters'] = {
     ["Mirage Raceway"] = {
@@ -35,7 +40,7 @@ _G['Characters'] = {
 }
 
 ---@type CharacterData
-local character_obj = addon.characters.characterInfo('Mirage Raceway', 'Quadduo')
+local character_obj = module:characterInfo('Mirage Raceway', 'Quadduo')
 
 function testCharacterProperties()
     lu.assertEquals(character_obj.money, 62993)

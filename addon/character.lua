@@ -1,25 +1,53 @@
----@type LibInventory
-local _, addon = ...
+---@type LibInventoryAce
+local addon = _G['LibInventoryAce']
 
 ---@class LibInventoryCharacter
-addon.characters = {}
-local lib = addon.characters
+local lib = _G['LibInventoryAce']:NewModule("LibInventoryCharacter")
+if not lib then
+    return
+end
+
+local CharacterObject = addon:GetModule('LibInventoryCharacterObject')
+
+---@type BMUtils
+local utils = _G.LibStub('BM-utils-2')
+local empty = utils.basic.empty
+
+function lib:OnInitialize()
+    self.db = addon.db:RegisterNamespace('Character', {})
+end
+
+---Save information about the current character
+function lib:save()
+    local character = _G.UnitName("player")
+    self.db.realm[character] = self.currentCharacterData()
+end
 
 ---Get information about the specified character
 ---@param realm string Realm
 ---@param character string Character name
-function lib.characterInfo(realm, character)
-    assert(_G['Characters'][realm], ('No data found for realm %s'):format(realm))
-    assert(_G['Characters'][realm][character], ('No data found for character'):format(character))
-    local char_data = _G['Characters'][realm][character]
-    setmetatable(char_data, addon.CharacterData)
-    addon.CharacterData.__index = addon.CharacterData
-    return char_data
+---@return LibInventoryCharacterObject
+function lib:characterInfo(realm, character)
+    if realm ~= _G.GetRealmName() then
+        utils.text.error(('Requested realm %s is not current'):format(realm))
+        return
+    end
+
+    if empty(self.db.realm[character]) then
+        utils.text.error(('No data found for character %s'):format(character))
+        return
+    end
+
+    return CharacterObject.construct(self.db.realm[character])
 end
 
----Get information about the current character
----@return CharacterData
+---Get a CharacterData object with information about the current character
+---@return LibInventoryCharacterObject
 function lib.currentCharacterInfo()
+    return CharacterObject.construct(lib.currentCharacterData())
+end
+
+function lib.currentCharacterData()
     local o = {}
 
     o.money = (_G.GetMoney() or 0) - _G.GetCursorMoney() - _G.GetPlayerTradeMoney()
@@ -36,10 +64,5 @@ function lib.currentCharacterInfo()
     o.gender = _G.UnitSex('player')
     o.name = _G.UnitName("player")
     o.realm = _G.GetRealmName()
-
-    addon.CharacterData.info = o
-
-    setmetatable(o, addon.CharacterData)
-    addon.CharacterData.__index = addon.CharacterData
     return o
 end
