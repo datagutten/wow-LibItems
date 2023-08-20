@@ -30,7 +30,7 @@ end
 
 function lib:scanGuildBank()
     local guildName = _G.GetGuildInfo('player');
-    self.addon.main:clearLocation('guildBank', guildName)
+    inventory:clearLocation('guildBank', guildName)
     local numTabs = _G.GetNumGuildBankTabs()
 
     for tab = 1, numTabs do
