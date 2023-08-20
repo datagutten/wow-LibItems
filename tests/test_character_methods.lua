@@ -1,16 +1,14 @@
 local lu = require('luaunit')
-loadfile('build_utils/wow_api/functions.lua')()
-loadfile('build_utils/wow_api/frame.lua')()
 loadfile('build_utils/wow_api/mixin.lua')()
 loadfile('build_utils/wow_api/Color.lua')()
-loadfile('build_utils/wow_api/constants.lua')()
 
 if _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC then
     loadfile('build_utils/wow_api/container_classic.lua')()
 else
     loadfile('build_utils/wow_api/container.lua')()
 end
-loadfile('build_utils/utils/load_toc.lua')('../LibInventory.toc')
+loadfile('build_utils/utils/load_toc.lua')('./test.toc')
+
 ---@type LibInventoryAce
 local addon = _G.LibStub("AceAddon-3.0"):GetAddon("LibInventoryAce")
 addon:OnInitialize()
