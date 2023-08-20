@@ -71,17 +71,20 @@ function lib:getItemLocation(itemID, character, realm)
     end
 end
 
+---Get all items in the given location
+---TODO: Broken
 function lib:getLocationItems(location, character, realm)
+    error('Broken, need rewrite')
     if character then
         character = utils.character.getCharacterString(character, realm)
-        if not self.db.char[character] or not self.db.char[character][location] then
+        if not self.db.char[location] then
             --@debug@
             print(('No data for location %s on character %s'):format(location, character))
             --@end-debug@
             return
         end
 
-        return self.db.char[character][location]
+        return self.db.char[location]
     else
         return self.db.char
     end
@@ -91,10 +94,7 @@ end
 ---/run LibInventoryItems.main:clearLocation('Bags')
 function lib:clearLocation(location, character, realm)
     character = utils.character.getCharacterString(character, realm)
-    if self.db.char[character] == nil then
-        self.db.char[character] = {}
-    end
-    self.db.char[character][location] = {}
+    self.db.char[location] = {}
     for itemID, characters in pairs(self.db.factionrealm) do
         for character_iter, locations in pairs(characters) do
             for location_iter, _ in pairs(locations) do
@@ -111,14 +111,12 @@ function lib:clearLocation(location, character, realm)
 end
 
 ---Clear all location for the given item
-function lib:clearItem(itemID, character, realm)
-    character = utils.getCharacterString(character, realm)
+function lib:clearItem(itemID)
+    --TODO: Clear all characters
     self.db.factionrealm[itemID] = nil
-    for character_iter, locations in pairs(self.db.char) do
-        for location_iter, item_iter in pairs(locations) do
-            if item_iter == itemID and character_iter == character then
-                self.db.char[character_iter][location_iter] = nil
-            end
+    for location_iter, item_iter in pairs(self.db.char) do
+        if item_iter == itemID then
+            self.db.char[location_iter][item_iter] = nil
         end
     end
 end
