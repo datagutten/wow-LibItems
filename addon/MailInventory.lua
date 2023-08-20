@@ -24,8 +24,8 @@ function lib:MAIL_INBOX_UPDATE()
 end
 
 function lib:scanMail()
-    self.addon.main:clearLocation('mail')
-    local mails = self.addon.mail:NumMails()
+    inventory:clearLocation('mail')
+    local mails = mail:NumMails()
     --@debug@
     print(('Scan %d mail(s)'):format(mails))
     --@end-debug@

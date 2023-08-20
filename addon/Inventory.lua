@@ -46,7 +46,7 @@ end
 function lib:saveItemLocation(itemID, location, quantity, character, realm)
     assert(itemID, 'itemID is nil')
     ---Get character string, arguments are optional and falls back to current character and realm if not set
-    character = addon.utils.character.getCharacterString(character, realm)
+    character = utils.character.getCharacterString(character, realm)
     assert(self.db.char[location], ('Invalid location: %s'):format(location))
 
     self.subTableCheck(self.db.char, location, itemID)
@@ -64,7 +64,7 @@ function lib:getItemLocation(itemID, character, realm)
     end
 
     if character then
-        character = addon.utils.character.getCharacterString(character, realm)
+        character = utils.character.getCharacterString(character, realm)
         return self.db.factionrealm[itemID][character] or {}
     else
         return self.db.factionrealm[itemID] or {}
@@ -73,7 +73,7 @@ end
 
 function lib:getLocationItems(location, character, realm)
     if character then
-        character = addon.utils.character.getCharacterString(character, realm)
+        character = utils.character.getCharacterString(character, realm)
         if not self.db.char[character] or not self.db.char[character][location] then
             --@debug@
             print(('No data for location %s on character %s'):format(location, character))
@@ -90,7 +90,7 @@ end
 ---Clear all items from the given location
 ---/run LibInventoryItems.main:clearLocation('Bags')
 function lib:clearLocation(location, character, realm)
-    character = addon.utils.character.getCharacterString(character, realm)
+    character = utils.character.getCharacterString(character, realm)
     if self.db.char[character] == nil then
         self.db.char[character] = {}
     end
