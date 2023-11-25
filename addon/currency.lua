@@ -20,13 +20,12 @@ end
 
 function lib:PLAYER_MONEY()
     self:saveMoney()
-    --@debug@
-    print(('Save money %d for %s'):format(_G.GetMoney(), self.name))
-    --@end-debug@
 end
 
 function lib:saveMoney()
+    --@debug@
     print(('Save money %d for %s'):format(_G.GetMoney(), self.name))
+    --@end-debug@
     self.db.char['money'] = _G.GetMoney()
 end
 
