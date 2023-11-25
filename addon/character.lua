@@ -38,7 +38,8 @@ function lib:load(realm, character)
     end
 
     if empty(self.db.realm[character]) then
-        utils.text.error(('No data found for character %s'):format(character))
+        --TODO: Do not show error for guild bank
+        --utils.text.error(('No data found for character %s'):format(character))
         return
     end
 
