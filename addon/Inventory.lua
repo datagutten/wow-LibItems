@@ -122,7 +122,7 @@ end
 function lib:cleanItems()
 
     for itemID, characters in pairs(self.db.factionrealm) do
-        for character_iter, _ in pairs(characters) do
+        for character_iter, locations in pairs(characters) do
             --[[            for location_iter, _ in pairs(locations) do
                         end]]
             if utils.basic.empty(self.db.factionrealm[itemID][character_iter]) then

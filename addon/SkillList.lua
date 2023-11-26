@@ -34,11 +34,11 @@ function lib:show()
 
     local dropdown = AceGUI:Create('Dropdown')
     for _, character in pairs(self:characters()) do
-        local characterName, realm = string.match(character, '^(.-)%s-%s(.+)$')
+        local characterName, _ = string.match(character, '^(.-)%s-%s(.+)$')
         dropdown:AddItem(character, characterName)
     end
     self.skillFrames = {}
-    dropdown:SetCallback('OnValueChanged', function(self, event, character)
+    dropdown:SetCallback('OnValueChanged', function(_, _, character)
         lib:show_skills(character)
     end)
 
@@ -88,16 +88,16 @@ function lib:show_skills(character)
     self.selectedChar = character
 
     local skill_groups, skill_count = self:group_skills(character)
-    print('Skill count', skill_count)
+    --print('Skill count', skill_count)
     self.frame:SetHeight(30 * skill_count)
-    for header, skills in pairs(skill_groups) do
+    for header, skills_iter in pairs(skill_groups) do
         local group = self.gui:Create('InlineGroup')
         group:SetTitle(header)
         --local header_obj = self.gui:Create('Heading')
         --header_obj:SetText(header)
         self.skillFrame:AddChild(group)
 
-        for skillName, skill in pairs(skills) do
+        for skillName, skill in pairs(skills_iter) do
             local label = self.gui:Create('Label')
             label:SetText(('%s: %d'):format(skillName, skill['skillRank']))
             if skill['spell'] then
@@ -108,7 +108,7 @@ function lib:show_skills(character)
     end
 end
 
-function skill_list()
+function _G.skill_list()
     return lib:show()
 end
 
