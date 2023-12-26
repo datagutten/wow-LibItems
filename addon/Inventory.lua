@@ -39,6 +39,12 @@ function lib.subTableCheck(tableData, ...)
     end
 end
 
+---Save item location
+---@param itemID number Item ID
+---@param location string Item location (container type)
+---@param quantity number Item quantity (total of all slots in the container)
+---@param character string Character who owns the item (optional, defaults to the current character)
+---@param realm string Realm of the character who owns the item (optional, defaults to the current realm)
 function lib:saveItemLocation(itemID, location, quantity, character, realm)
     assert(itemID, 'itemID is nil')
     ---Get character string, arguments are optional and falls back to current character and realm if not set
