@@ -8,6 +8,13 @@ mail.mail_open = false
 mail.attachment_key = 0
 mail.items = {}
 
+local PickupContainerItem
+if _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC then
+    PickupContainerItem = _G.PickupContainerItem
+else
+    PickupContainerItem = _G.C_Container.PickupContainerItem
+end
+
 ---Set mail recipient
 ---@param recipient string Mail recipient
 function mail:recipient(recipient)
@@ -45,8 +52,8 @@ end
 ---@param key number The index of the item (1-ATTACHMENTS_MAX_SEND(12))
 function mail:AddAttachment(bag, slot, key)
     --utils.basic.printf('Attach item from container %d slot %d to %d', bag, slot, key or self.attachment_key)
-    -- https://wow.gamepedia.com/API_PickupContainerItem
-    _G.PickupContainerItem(bag, slot)
+    -- https://warcraft.wiki.gg/wiki/API_PickupContainerItem
+    PickupContainerItem(bag, slot)
     _G.ClickSendMailItemButton(key or self.attachment_key)
     self.attachment_key = self.attachment_key + 1
 end
@@ -99,7 +106,7 @@ function mail:attachments(attachments, positions)
             utils.basic.printf('Attach itemID %s as attachment %d from container %d slot %d',
                     itemID, key, position["bag"], position["slot"])
             --@end-debug@
-            _G.PickupContainerItem(position["bag"], position["slot"])
+            PickupContainerItem(position["bag"], position["slot"])
             _G.ClickSendMailItemButton(key)
         end
     end
