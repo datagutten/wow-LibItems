@@ -88,6 +88,28 @@ function mail:GetMailItems(mailIndex)
     return mailItems
 end
 
+---Get items attached to an outgoing mail
+---Multiple item stacks are summarized
+---@return table ItemID and item count
+function mail:getSendAttachments()
+    local items = {}
+    -- Based on code snippet from https://warcraft.wiki.gg/wiki/API_GetSendMailItem
+    for i = 1, _G.ATTACHMENTS_MAX_SEND do
+        local name, itemID, texture, count = _G.GetSendMailItem(i)
+        if itemID then
+            --@debug@
+            print("You are sending", "\124T" .. texture .. ":0\124t", name, "x", count)
+            --@end-debug@
+            if items[itemID] == nil then
+                items[itemID] = count
+            else
+                items[itemID] = items[itemID] + count
+            end
+        end
+    end
+    return items
+end
+
 
 --/dump LibInventoryMail:GetItem(1081, "Quadduo")
 function mail:GetItem(itemID, character)
