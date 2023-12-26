@@ -40,7 +40,7 @@ function mail:cod(amount)
 end
 
 function mail:send(target, subject, body)
-    --https://wowwiki.fandom.com/wiki/API_SendMail
+    --https://warcraft.wiki.gg/wiki/API_SendMail
     _G.SendMail(target, _G.SendMailSubjectEditBox:GetText() or subject or "", body or "")
     self.body = body
     self.subject = subject
@@ -52,7 +52,7 @@ end
 ---@param key number The index of the item (1-ATTACHMENTS_MAX_SEND(12))
 function mail:AddAttachment(bag, slot, key)
     --utils.basic.printf('Attach item from container %d slot %d to %d', bag, slot, key or self.attachment_key)
-    -- https://warcraft.wiki.gg/wiki/API_PickupContainerItem
+    --https://warcraft.wiki.gg/wiki/API_PickupContainerItem
     PickupContainerItem(bag, slot)
     _G.ClickSendMailItemButton(key or self.attachment_key)
     self.attachment_key = self.attachment_key + 1
@@ -136,7 +136,7 @@ end
 
 --Event handling
 function mail:OnEnable()
-    -- https://wowwiki.fandom.com/wiki/Events/Mail
+    --https://warcraft.wiki.gg/wiki/Events#C_Mail
     self:RegisterEvent("MAIL_SEND_SUCCESS")
     self:RegisterEvent("MAIL_SHOW")
     self:RegisterEvent("MAIL_CLOSED")

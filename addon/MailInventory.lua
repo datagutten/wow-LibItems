@@ -15,7 +15,7 @@ function lib:OnEnable()
 end
 
 ---This event is fired when the inbox changes in any way.
----https://wow.gamepedia.com/MAIL_INBOX_UPDATE
+---https://warcraft.wiki.gg/wiki/MAIL_INBOX_UPDATE
 function lib:MAIL_INBOX_UPDATE()
     --@debug@
     print('Mail inbox updated')
