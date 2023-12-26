@@ -53,7 +53,7 @@ function lib:saveItemLocation(itemID, location, quantity, character, realm)
 end
 
 --/dump _G['LibInventory'].main:getItemLocation(6948, 'Luckydime', 'Mirage Raceway')
----Get item count and which container it is located in
+---Get item count and which container type it is located in
 function lib:getItemLocation(itemID, character, realm)
     if not self.db.factionrealm[itemID] then
         return {}

@@ -109,13 +109,18 @@ end
 ---Summarize multiple item stacks
 function lib:getMultiContainerItems(first, last)
     local itemCount = {}
+    local itemLocations = {}
     for container = first, last, 1 do
         local items = self.getContainerItems(container)
-        for _, item in pairs(items) do
+        for slot, item in pairs(items) do
             itemCount[item['itemID']] = item['stackCount'] + (itemCount[item['itemID']] or 0)
+            if itemLocations[item['itemID']] == nil then
+                itemLocations[item['itemID']] = {}
+            end
+            table.insert(itemLocations[item['itemID']], { container = container, slot = slot })
         end
     end
-    return itemCount
+    return itemCount, itemLocations
 end
 
 function lib:scanContainers(first, last, location)
