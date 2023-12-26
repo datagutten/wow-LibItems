@@ -51,11 +51,13 @@ function lib:group_skills(character)
     local groups = {}
     local character_skills = skills:getCharacterSkills(character)
     for skillName, skill in pairs(character_skills) do
-        if groups[skill['category']] == nil then
-            groups[skill['category']] = {}
+        if skill['category'] ~= nil then
+            if groups[skill['category']] == nil then
+                groups[skill['category']] = {}
+            end
+            groups[skill['category']][skillName] = skill
+            count = count + 1
         end
-        groups[skill['category']][skillName] = skill
-        count = count + 1
     end
     return groups, count
 end
