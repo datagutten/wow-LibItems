@@ -53,7 +53,8 @@ end
 function mail:AddAttachment(bag, slot, key)
     --@debug@
     local itemInfo = utils.container.GetContainerItemInfo(bag, slot)
-    utils.text.cprint(('Attach item %s from container %d slot %d to %d'):format(itemInfo['hyperlink'], bag, slot, self.attachment_key), 1, 1, 0)
+    utils.text.cprint(('Attach item %s from container %d slot %d to %d'):format(
+            itemInfo['hyperlink'], bag, slot, self.attachment_key), 1, 1, 0)
     --@end-debug@
     --https://warcraft.wiki.gg/wiki/API_PickupContainerItem
     PickupContainerItem(bag, slot)
