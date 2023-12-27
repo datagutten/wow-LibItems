@@ -4,5 +4,6 @@ build_utils/wow_api/constants.lua
 build_utils/wow_api/functions.lua
 build_utils/wow_api/container.lua
 build_utils/wow_api/Inventory.lua
+MailFrame.lua
 ../dependencies.xml
 ../lib.xml
