@@ -41,7 +41,9 @@ function lib:saveRecipes()
     --[[    self.db.char[professionName]['skill'] = skill
         self.db.char[professionName]['maxSkill'] = maxSkill]]
     utils.table.subTableCheck(self.db.char, professionName, 'recipes')
+    --@debug@
     print(('Save recipes for %s'):format(professionName))
+    --@end-debug@
     for recipeID, recipe in pairs(recipes) do
         if recipeID ~= nil and recipe ~= nil then
             self.db.char[professionName]['recipes'][recipeID] = recipe['recipeId']
@@ -58,8 +60,7 @@ function lib:TRADE_SKILL_CLOSE()
     self:saveSkills()
 end
 
-function lib:TRADE_SKILL_UPDATE(_, arg1)
-    print('TRADE SKILL UPDATE', arg1)
+function lib:TRADE_SKILL_UPDATE()
     self:saveRecipes()
 end
 
