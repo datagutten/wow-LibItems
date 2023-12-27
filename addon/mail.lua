@@ -5,7 +5,7 @@ local mail = _G['LibInventoryAce']:NewModule('LibInventoryMail', 'AceEvent-3.0')
 local utils = _G.LibStub('BM-utils-2')
 
 mail.mail_open = false
-mail.attachment_key = 0
+mail.attachment_key = 1
 mail.items = {}
 
 local PickupContainerItem
@@ -51,7 +51,10 @@ end
 ---@param slot number Slot inside the bag (top left slot is 1, slot to the right of it is 2)
 ---@param key number The index of the item (1-ATTACHMENTS_MAX_SEND(12))
 function mail:AddAttachment(bag, slot, key)
-    --utils.basic.printf('Attach item from container %d slot %d to %d', bag, slot, key or self.attachment_key)
+    --@debug@
+    local itemInfo = utils.container.GetContainerItemInfo(bag, slot)
+    utils.text.cprint(('Attach item %s from container %d slot %d to %d'):format(itemInfo['hyperlink'], bag, slot, self.attachment_key), 1, 1, 0)
+    --@end-debug@
     --https://warcraft.wiki.gg/wiki/API_PickupContainerItem
     PickupContainerItem(bag, slot)
     _G.ClickSendMailItemButton(key or self.attachment_key)
@@ -152,5 +155,9 @@ function mail:MAIL_CLOSED()
 end
 
 function mail:MAIL_SEND_SUCCESS()
-    self.attachment_key = 0
+    self.attachment_key = 1
 end
+
+_G.SendMailFrame:HookScript('OnHide', function()
+    mail.attachment_key = 1
+end)
