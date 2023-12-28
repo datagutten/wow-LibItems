@@ -17,29 +17,33 @@ end
 
 function lib:OnEnable()
     self.gui = _G.LibStub('AceGUI-3.0')
+    self.skillFrames = {}
+    self.skillGroupFrames = {}
 end
 
 function lib:show()
     local AceGUI = self.gui
-    local f = AceGUI:Create('Frame')
+    local f = AceGUI:Create('Window')
     self.frame = f
     f:SetCallback('OnClose', function(widget)
         AceGUI:Release(widget)
         lib.selectedChar = nil
     end)
     f:SetTitle('Character skills')
-    f:SetStatusText('Status Bar')
+    --f:SetStatusText('Status Bar')
     f:SetLayout('Flow')
-    f:SetWidth(400)
+    f:SetWidth(350)
 
     local dropdown = AceGUI:Create('Dropdown')
     for _, character in pairs(self:characters()) do
         local characterName, _ = string.match(character, '^(.-)%s-%s(.+)$')
         dropdown:AddItem(character, characterName)
     end
-    self.skillFrames = {}
-    dropdown:SetCallback('OnValueChanged', function(_, _, character)
+
+    dropdown:SetCallback('OnValueChanged', function(self2, _, character)
+        lib:releaseSkillGroups()
         lib:show_skills(character)
+        self2:SetValue(character)
     end)
 
     f:AddChild(dropdown)
@@ -62,6 +66,34 @@ function lib:group_skills(character)
     return groups, count
 end
 
+function lib:releaseSkillGroups()
+    for group, frame in pairs(self.skillGroupFrames) do
+        self.skillFrame:ReleaseChildren(frame)
+        self.skillGroupFrames[group] = nil
+    end
+end
+
+function lib:showSkillGroup(character, skillGroup)
+    local skill_groups = self:group_skills(character)
+    assert(skill_groups[skillGroup], ('Skill group %s not found'):format(skillGroup))
+
+    self.skillGroupFrames[skillGroup] = self.gui:Create('InlineGroup')
+    local group = self.skillGroupFrames[skillGroup]
+    group:SetTitle(skillGroup)
+    --local header_obj = self.gui:Create('Heading')
+    --header_obj:SetText(header)
+    self.skillFrame:AddChild(group)
+
+    for skillName, skill in pairs(skill_groups[skillGroup]) do
+        local label = self.gui:Create('Label')
+        label:SetText(('%s: %d'):format(skillName, skill['skillRank']))
+        if skill['spell'] then
+            label:SetImage(skill['spell']['icon'])
+        end
+        group:AddChild(label)
+    end
+end
+
 function lib:show_skills(character)
     if self.selectedChar ~= nil then
         self.gui:Release(self.frame)
@@ -76,23 +108,8 @@ function lib:show_skills(character)
     self.skillFrame = self.skillFrames[character]
     self.selectedChar = character
 
-    local skill_groups, skill_count = self:group_skills(character)
-    self.frame:SetHeight(30 * skill_count)
-    for header, skills_iter in pairs(skill_groups) do
-        local group = self.gui:Create('InlineGroup')
-        group:SetTitle(header)
-        --local header_obj = self.gui:Create('Heading')
-        --header_obj:SetText(header)
-        self.skillFrame:AddChild(group)
-
-        for skillName, skill in pairs(skills_iter) do
-            local label = self.gui:Create('Label')
-            label:SetText(('%s: %d'):format(skillName, skill['skillRank']))
-            if skill['spell'] then
-                label:SetImage(skill['spell']['icon'])
-            end
-            group:AddChild(label)
-        end
+    for _, skillGroup in ipairs({ 'Professions', 'Secondary Skills' }) do
+        self:showSkillGroup(character, skillGroup)
     end
 end
 
