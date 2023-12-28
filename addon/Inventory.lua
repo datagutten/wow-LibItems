@@ -51,11 +51,19 @@ function lib:saveItemLocation(itemID, location, quantity, character, realm)
     character = utils.character.getCharacterString(character, realm)
     assert(self.location_names[location], ('Invalid location: %s'):format(location))
 
-    self.subTableCheck(self.db.char, location, itemID)
-    self.db.char[location][itemID] = quantity
+    self.subTableCheck(self.db.char, location)
+    if not self.db.char[location][itemID] then
+        self.db.char[location][itemID] = quantity
+    else
+        self.db.char[location][itemID] = self.db.char[location][itemID] + quantity
+    end
 
-    self.subTableCheck(self.db.factionrealm, itemID, character, location)
-    self.db.factionrealm[itemID][character][location] = quantity
+    self.subTableCheck(self.db.factionrealm, itemID, character)
+    if not self.db.factionrealm[itemID][character][location] then
+        self.db.factionrealm[itemID][character][location] = quantity
+    else
+        self.db.factionrealm[itemID][character][location] = self.db.factionrealm[itemID][character][location] + quantity
+    end
 end
 
 --/dump _G['LibInventory'].main:getItemLocation(6948, 'Luckydime', 'Mirage Raceway')
