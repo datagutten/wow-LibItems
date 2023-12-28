@@ -14,5 +14,5 @@ end
 
 _G.SLASH_SKILLS1 = "/skills"
 _G.SlashCmdList['SKILLS'] = function()
-    skills:show()
+    skills:toggle()
 end

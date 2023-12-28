@@ -17,17 +17,30 @@ end
 
 function lib:OnEnable()
     self.gui = _G.LibStub('AceGUI-3.0')
-    self.skillFrames = {}
     self.skillGroupFrames = {}
 end
 
+function lib:toggle()
+    if self.visible then
+        self:hide()
+    else
+        self:show()
+    end
+end
+
+function lib:hide()
+    self.gui:Release(self.frame)
+    self.selectedChar = nil
+    self.visible = false
+end
+
 function lib:show()
+    self.visible = true
     local AceGUI = self.gui
     local f = AceGUI:Create('Window')
     self.frame = f
-    f:SetCallback('OnClose', function(widget)
-        AceGUI:Release(widget)
-        lib.selectedChar = nil
+    f:SetCallback('OnClose', function()
+        lib:hide()
     end)
     f:SetTitle('Character skills')
     --f:SetStatusText('Status Bar')
@@ -99,13 +112,9 @@ function lib:show_skills(character)
         self.gui:Release(self.frame)
         self:show()
     end
-    if self.skillFrames[character] == nil then
-        self.skillFrames[character] = self.gui:Create('SimpleGroup')
-        self.frame:AddChild(self.skillFrames[character])
-    else
-        self.skillFrames[character].frame:Show()
-    end
-    self.skillFrame = self.skillFrames[character]
+
+    self.skillFrame = self.gui:Create('SimpleGroup')
+    self.frame:AddChild(self.skillFrame)
     self.selectedChar = character
 
     for _, skillGroup in ipairs({ 'Professions', 'Secondary Skills' }) do
