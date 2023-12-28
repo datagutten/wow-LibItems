@@ -64,33 +64,19 @@ end
 
 function lib:show_skills(character)
     if self.selectedChar ~= nil then
-        --self.skillFrames[self.selectedChar].frame:Hide()
-        --self.gui:Release(self.skillFrames[self.selectedChar])
-        print(('Hide %s'):format(self.selectedChar))
         self.gui:Release(self.frame)
         self:show()
     end
     if self.skillFrames[character] == nil then
-        print(('Create %s'):format(character))
         self.skillFrames[character] = self.gui:Create('SimpleGroup')
-        --self.frame:AddChild(skillFrame)
         self.frame:AddChild(self.skillFrames[character])
     else
-        print(('Show %s'):format(character))
         self.skillFrames[character].frame:Show()
     end
     self.skillFrame = self.skillFrames[character]
-    --[[    if self.skillFrame ~= nil then
-            self.gui:Release(self.skillFrame)
-            self.skillFrame = nil
-        end
-        self.skillFrame = self.gui:Create('SimpleGroup')
-        self.frame:AddChild(self.skillFrame)]]
-
     self.selectedChar = character
 
     local skill_groups, skill_count = self:group_skills(character)
-    --print('Skill count', skill_count)
     self.frame:SetHeight(30 * skill_count)
     for header, skills_iter in pairs(skill_groups) do
         local group = self.gui:Create('InlineGroup')
