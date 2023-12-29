@@ -52,6 +52,16 @@ function lib.current()
     return CharacterObject.construct(lib.currentCharacterData())
 end
 
+---Get known characters
+---@return table Character names
+function lib:characters()
+    local chars = {}
+    for character_nane, _ in pairs(self.db.realm) do
+        table.insert(chars, character_nane)
+    end
+    return chars
+end
+
 function lib.currentCharacterData()
     local o = {}
 
