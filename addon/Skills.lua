@@ -18,7 +18,9 @@ function lib:OnInitialize()
 end
 
 function lib:OnEnable()
-    self:RegisterEvent('TRADE_SKILL_UPDATE')
+    if _G.WOW_PROJECT_ID ~= _G.WOW_PROJECT_MAINLINE then
+        self:RegisterEvent('TRADE_SKILL_UPDATE')
+    end
     self:RegisterEvent('TRADE_SKILL_SHOW')
     self:RegisterEvent('TRADE_SKILL_CLOSE')
     self:RegisterEvent('NEW_RECIPE_LEARNED')
@@ -70,6 +72,9 @@ function lib:NEW_RECIPE_LEARNED(event, arg1)
 end
 
 function lib:saveSkills()
+    if _G['GetNumSkillLines'] == nil then
+        return --Retail has no skills, only professions
+    end
     local headerName
     local numSkills = _G.GetNumSkillLines();
     for skillIndex = 1, numSkills, 1 do
