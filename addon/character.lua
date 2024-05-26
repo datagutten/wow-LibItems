@@ -7,6 +7,7 @@ if not lib then
     return
 end
 
+---@type LibInventoryCharacterObject
 local CharacterObject = addon:GetModule('LibInventoryCharacterObject')
 
 ---@type BMUtils
