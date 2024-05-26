@@ -31,12 +31,12 @@ function lib:get_characters()
 end
 
 ---This event is fired when the inbox changes in any way.
----https://warcraft.wiki.gg/wiki/MAIL_INBOX_UPDATE
+---[https://warcraft.wiki.gg/wiki/MAIL_INBOX_UPDATE]
 function lib:MAIL_INBOX_UPDATE()
     --@debug@
     print('Mail inbox updated')
     --@end-debug@
-    self:scanMail()
+    self.scanMail()
 end
 
 ---Save items when mail is successfully sent
@@ -59,7 +59,7 @@ function lib:MAIL_SEND_SUCCESS()
     self.send_items = nil
 end
 
-function lib:scanMail()
+function lib.scanMail()
     inventory:clearLocation('mail')
     local mails = mail:NumMails()
     --@debug@

@@ -14,8 +14,9 @@ function lib:OnEnable()
     self:RegisterEvent('PLAYER_EQUIPMENT_CHANGED')
 end
 
-function lib:scanEquipment()
-    --https://www.townlong-yak.com/framexml/9.0.2/Constants.lua#192
+---Scan equipped items
+--- [https://www.townlong-yak.com/framexml/9.0.2/Constants.lua#192]
+function lib.scanEquipment()
     inventory:clearLocation('equipment')
     local link, itemID
     for slot = 0, 19 do
@@ -28,5 +29,5 @@ function lib:scanEquipment()
 end
 
 function lib:PLAYER_EQUIPMENT_CHANGED()
-    self:scanEquipment()
+    self.scanEquipment()
 end
