@@ -18,6 +18,14 @@ function test.setUp()
     inventory:OnInitialize()
 end
 
+function test:testFreeSlots()
+    lu.assertEquals(GetContainerNumSlots(1), 16, 'Wrong global API dummy used')
+end
+
+function test:testFreeSlotsNamespace()
+    lu.assertEquals(C_Container.GetContainerNumSlots(1), 16, 'Wrong namespaced API dummy used')
+end
+
 function test:testGetMultiContainerItems()
     local items = container:getMultiContainerItems(0, 4)
     --DevTools_Dump(items)

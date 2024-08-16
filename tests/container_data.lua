@@ -6,6 +6,12 @@ local num_slots = {
     [4] = 18,
 }
 
+local namespace = true
+if _G.C_Container == nil then
+    _G.C_Container = {}
+    namespace = false
+end
+
 function _G.C_Container.GetContainerNumSlots(slot)
     return num_slots[slot]
 end
@@ -36,4 +42,14 @@ function _G.C_Container.GetContainerItemInfo(containerIndex, slotIndex)
     return item
 end
 
---return C_Container
+if not namespace then
+    _G.GetContainerNumSlots = _G.C_Container.GetContainerNumSlots
+    function _G.GetContainerItemInfo(bagID, slot)
+        local item = _G.C_Container.GetContainerItemInfo(bagID, slot)
+        if item == nil then
+            return
+        end
+        return item['iconFileID'], item['stackCount'], item['isLocked'], item['quality'], item['isReadable'],
+        item['hasLoot'], item['hyperlink'], item['isFiltered'], item['hasNoValue'], item['itemID'], item['isBound']
+    end
+end
