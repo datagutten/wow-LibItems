@@ -8,12 +8,7 @@ mail.mail_open = false
 mail.attachment_key = 1
 mail.items = {}
 
-local PickupContainerItem
-if _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC then
-    PickupContainerItem = _G.PickupContainerItem
-else
-    PickupContainerItem = _G.C_Container.PickupContainerItem
-end
+local PickupContainerItem = _G.PickupContainerItem or _G.C_Container.PickupContainerItem
 
 ---Set mail recipient
 ---@param recipient string Mail recipient
