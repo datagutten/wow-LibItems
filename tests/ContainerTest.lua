@@ -18,8 +18,10 @@ function test.setUp()
     inventory:OnInitialize()
 end
 
-function test:testFreeSlots()
-    lu.assertEquals(GetContainerNumSlots(1), 16, 'Wrong global API dummy used')
+if GetContainerNumSlots ~= nil then
+    function test:testFreeSlots()
+        lu.assertEquals(GetContainerNumSlots(1), 16, 'Wrong global API dummy used')
+    end
 end
 
 function test:testFreeSlotsNamespace()
