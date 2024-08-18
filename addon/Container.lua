@@ -5,6 +5,8 @@ local inventory = _G['LibInventoryAce']:GetModule('LibInventoryLocations')
 
 ---@type BMUtilsBasic
 local basic = _G.LibStub('BM-utils-2'):GetModule('BMUtilsBasic')
+---@type BMUtils
+local utils = _G.LibStub('BM-utils-2'):GetModule('BMUtils')
 
 ---@type C_Container
 local C_Container
