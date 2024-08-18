@@ -1,8 +1,8 @@
 ---@class LibInventoryCharacterObject A object with information about a character
 local lib = _G['LibInventoryAce']:NewModule("LibInventoryCharacterObject")
 
----@type BMUtils
-local utils = _G.LibStub('BM-utils-2')
+---@type BMUtilsCharacterInfo
+local character_utils = _G.LibStub('BM-utils-2'):GetModule('BMUtilsCharacterInfo')
 
 ---Construct the object with data
 ---@return LibInventoryCharacterObject
@@ -26,12 +26,12 @@ end]]
 
 ---Get gender as string
 function lib:genderString()
-    return utils.character.genderString(self.gender)
+    return character_utils.genderString(self.gender)
 end
 
 ---Get character race icon
 function lib:icon()
-    return utils.character.raceIcon(self.raceFile, self:genderString())
+    return character_utils.raceIcon(self.raceFile, self:genderString())
 end
 
 function lib:iconString(size, x, y)

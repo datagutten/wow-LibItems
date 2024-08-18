@@ -1,8 +1,8 @@
 ---@class LibInventoryMail Library to send and extract items from mail
 local mail = _G['LibInventoryAce']:NewModule('LibInventoryMail', 'AceEvent-3.0')
 
----@type BMUtils
-local utils = _G.LibStub('BM-utils-2')
+---@type BMUtilsCharacterInfo
+local character_utils = _G.LibStub('BM-utils-2'):GetModule('BMUtilsCharacterInfo')
 
 mail.mail_open = false
 mail.attachment_key = 1
@@ -13,7 +13,7 @@ local PickupContainerItem = _G.PickupContainerItem or _G.C_Container.PickupConta
 ---Set mail recipient
 ---@param recipient string Mail recipient
 function mail:recipient(recipient)
-    local character, realm = utils.character.splitCharacterString(recipient)
+    local character, realm = character_utils.splitCharacterString(recipient)
     if realm == _G.GetRealmName() then
         recipient = character
     end
@@ -112,7 +112,7 @@ end
 
 --/dump LibInventoryMail:GetItem(1081, "Quadduo")
 function mail:GetItem(itemID, character)
-    character = utils.character.getCharacterString(character)
+    character = character_utils.getCharacterString(character)
     if _G.MailItems[character][itemID] ~= nil and _G.MailItems[character][itemID] > 0 then
         return _G.MailItems[character][itemID]
     end

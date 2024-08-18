@@ -10,9 +10,10 @@ end
 ---@type LibInventoryCharacterObject
 local CharacterObject = addon:GetModule('LibInventoryCharacterObject')
 
----@type BMUtils
-local utils = _G.LibStub('BM-utils-2')
-local empty = utils.basic.empty
+---@type BMUtilsBasic
+local basic = _G.LibStub('BM-utils-2'):GetModule('BMUtilsBasic')
+---@type BMUtilsText
+local text = _G.LibStub('BM-utils-2'):GetModule('BMUtilsText')
 
 function lib:OnInitialize()
     self.db = addon.db:RegisterNamespace('Character', {})
@@ -34,11 +35,11 @@ end
 ---@return LibInventoryCharacterObject
 function lib:load(realm, character)
     if realm ~= _G.GetRealmName() then
-        utils.text.error(('Requested realm %s is not current'):format(realm))
+        text.error(('Requested realm %s is not current'):format(realm))
         return
     end
 
-    if empty(self.db.realm[character]) then
+    if basic.empty(self.db.realm[character]) then
         --TODO: Do not show error for guild bank
         --utils.text.error(('No data found for character %s'):format(character))
         return

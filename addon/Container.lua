@@ -3,13 +3,14 @@ local lib = _G['LibInventoryAce']:NewModule('LibInventoryContainer', 'AceEvent-3
 ---@type LibInventoryLocations
 local inventory = _G['LibInventoryAce']:GetModule('LibInventoryLocations')
 
----@type BMUtils
-local utils = _G.LibStub('BM-utils-2')
+---@type BMUtilsBasic
+local basic = _G.LibStub('BM-utils-2'):GetModule('BMUtilsBasic')
 
 ---@type C_Container
 local C_Container
 if _G.C_Container == nil or _G.C_Container.GetContainerNumSlots == nil then
-    C_Container = utils.container
+    ---@type BMUtilsContainer
+    C_Container = _G.LibStub('BM-utils-2'):GetModule('BMUtilsContainer')
 else
     C_Container = _G.C_Container
 end
@@ -44,7 +45,7 @@ end
 ---https://wow.gamepedia.com/BAG_UPDATE
 function lib:BAG_UPDATE(_, bag)
     --@debug@
-    utils.basic.printf('Bag %d updated, scan all bags', bag)
+    basic.printf('Bag %d updated, scan all bags', bag)
     --@end-debug@
 
     self:scanBags()
@@ -66,14 +67,14 @@ end
 
 function lib:PLAYERBANKSLOTS_CHANGED(slot)
     --@debug@
-    utils.basic.printf('Bank slot %d changed', slot)
+    basic.printf('Bank slot %d changed', slot)
     --@end-debug@
     self:scanBank()
 end
 
 function lib:PLAYERREAGENTBANKSLOTS_CHANGED(slot)
     --@debug@
-    utils.basic.printf('Reagent Bank slot %d changed', slot)
+    basic.printf('Reagent Bank slot %d changed', slot)
     --@end-debug@
     self:scanBank()
 end

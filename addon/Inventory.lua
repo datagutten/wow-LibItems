@@ -4,9 +4,10 @@ local addon = _G['LibInventoryAce']
 ---@class LibInventoryLocations
 local lib = _G['LibInventoryAce']:NewModule("LibInventoryLocations")
 
----@type BMUtils
-local utils = _G.LibStub('BM-utils-2')
-local empty = utils.basic.empty
+---@type BMUtilsBasic
+local basic = _G.LibStub('BM-utils-2'):GetModule('BMUtilsBasic')
+---@type BMUtilsCharacterInfo
+local character_utils = _G.LibStub('BM-utils-2'):GetModule('BMUtilsCharacterInfo')
 
 lib.location_names = {
     guildBank = _G.GUILD_BANK,
@@ -48,7 +49,7 @@ end
 function lib:saveItemLocation(itemID, location, quantity, character, realm)
     assert(itemID, 'itemID is nil')
     ---Get character string, arguments are optional and falls back to current character and realm if not set
-    character = utils.character.getCharacterString(character, realm)
+    character = character_utils.getCharacterString(character, realm)
     assert(self.location_names[location], ('Invalid location: %s'):format(location))
 
     self.subTableCheck(self.db.char, location)
@@ -74,7 +75,7 @@ function lib:getItemLocation(itemID, character, realm)
     end
 
     if character then
-        character = utils.character.getCharacterString(character, realm)
+        character = character_utils.getCharacterString(character, realm)
         return self.db.factionrealm[itemID][character] or {}
     else
         return self.db.factionrealm[itemID] or {}
@@ -86,7 +87,7 @@ end
 function lib:getLocationItems(location, character, realm)
     if character then
         error('Broken, need rewrite')
-        character = utils.character.getCharacterString(character, realm)
+        character = character_utils.getCharacterString(character, realm)
         if not self.db.char[location] then
             --@debug@
             print(('No data for location %s on character %s'):format(location, character))
@@ -102,7 +103,7 @@ end
 ---Clear all items from the given location
 ---/run LibInventoryItems.main:clearLocation('Bags')
 function lib:clearLocation(location, character, realm)
-    character = utils.character.getCharacterString(character, realm)
+    character = character_utils.getCharacterString(character, realm)
     self.db.char[location] = {}
     for itemID, characters in pairs(self.db.factionrealm) do
         for character_iter, locations in pairs(characters) do
@@ -110,7 +111,7 @@ function lib:clearLocation(location, character, realm)
                 if location_iter == location and character_iter == character then
                     self.db.factionrealm[itemID][character_iter][location_iter] = nil
 
-                    if empty(self.db.factionrealm[itemID][character_iter]) then
+                    if basic.empty(self.db.factionrealm[itemID][character_iter]) then
                         self.db.factionrealm[itemID][character_iter] = nil
                     end
                 end
@@ -139,14 +140,14 @@ function lib:cleanItems()
         for character_iter, locations in pairs(characters) do
             --[[            for location_iter, _ in pairs(locations) do
                         end]]
-            if utils.basic.empty(self.db.factionrealm[itemID][character_iter]) then
+            if basic.empty(self.db.factionrealm[itemID][character_iter]) then
                 --@debug@
                 print(('Item %d has no locations for character %s, remove from table'):format(itemID, character_iter))
                 --@end-debug@
                 self.db.factionrealm[itemID][character_iter] = nil
             end
         end
-        if utils.basic.empty(self.db.factionrealm[itemID]) then
+        if basic.empty(self.db.factionrealm[itemID]) then
             --@debug@
             print(('No characters has item %d, remove it from table'):format(itemID))
             --@end-debug@

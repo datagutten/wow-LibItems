@@ -7,8 +7,12 @@ local lib = _G['LibInventoryAce']:NewModule('LibInventorySkills', 'AceEvent-3.0'
 ---@type LibProfessionsCommon
 local professions = _G.LibStub('LibProfessions-0')
 local profession = professions.currentProfession
----@type BMUtils
-local utils = _G.LibStub('BM-utils-2')
+---@type BMUtilsTable
+local table_utils = _G.LibStub('BM-utils-2'):GetModule('BMUtilsTable')
+---@type BMUtilsBasic
+local basic =  _G.LibStub('BM-utils-2'):GetModule('BMUtilsBasic')
+---@type BMUtilsText
+local text_utils =  _G.LibStub('BM-utils-2'):GetModule('BMUtilsText')
 
 function lib:OnInitialize()
     self.db = addon.db:RegisterNamespace('Skills')
@@ -24,6 +28,7 @@ function lib:OnEnable()
     self:RegisterEvent('TRADE_SKILL_SHOW')
     self:RegisterEvent('TRADE_SKILL_CLOSE')
     self:RegisterEvent('NEW_RECIPE_LEARNED')
+    self:RegisterEvent('CONSOLE_MESSAGE')
 end
 
 function lib:professionInfo()
@@ -42,7 +47,7 @@ function lib:saveRecipes()
     local professionName, skill, maxSkill = professions.api.GetInfo()
     --[[    self.db.char[professionName]['skill'] = skill
         self.db.char[professionName]['maxSkill'] = maxSkill]]
-    utils.table.subTableCheck(self.db.char, professionName, 'recipes')
+    table_utils.subTableCheck(self.db.char, professionName, 'recipes')
     --@debug@
     print(('Save recipes for %s'):format(professionName))
     --@end-debug@
@@ -63,12 +68,20 @@ function lib:TRADE_SKILL_CLOSE()
 end
 
 function lib:TRADE_SKILL_UPDATE()
-    self:saveRecipes()
+    --self:saveRecipes()
 end
 
 function lib:NEW_RECIPE_LEARNED(event, arg1)
     local spellId = arg1
     self:saveRecipes()
+end
+
+function lib:CONSOLE_MESSAGE(_, message, colorType)
+    local skill, from, to = message:match('Skill (%d+) increased from (%d+) to (%d+)')
+    if not skill then
+        return
+    end
+    print(('Console message: Skill %d increased to %d'):format(skill, to))
 end
 
 function lib:saveSkills()
@@ -134,9 +147,9 @@ function lib:getCharacterSkills(character, realmKey)
             charKey = character .. " - " .. realmKey
         end
 
-        if utils.basic.empty(self.db_global[charKey]) then
+        if basic.empty(self.db_global[charKey]) then
             --@debug@
-            utils.text.error(('No skills found for character %s'):format(character))
+            text_utils.error(('No skills found for character %s'):format(character))
             --@end-debug@
         end
         return self.db_global[charKey]
